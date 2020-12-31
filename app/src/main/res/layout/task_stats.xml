@@ -2,39 +2,39 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:background="@drawable/backgroundtask"
+    android:layout_width="match_parent"
     android:orientation="horizontal"
-    android:layout_marginBottom="20dp"
-    android:layout_height="100dp"
-    android:layout_marginLeft="10dp">
+    android:layout_height="80dp">
 
     <LinearLayout
-        android:layout_marginTop="30dp"
-        android:layout_width="30dp"
+        android:layout_marginTop="32dp"
+        android:layout_width="100dp"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/chkChoose"
+        <TextView
+            android:id="@+id/tvDate"
+            android:textSize="16sp"
+            android:textColor="@color/textTaskDate"
+            android:layout_marginTop="8dp"
+            android:text="25/12/2020"
+            android:gravity="right"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </com.google.android.material.checkbox.MaterialCheckBox>
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_marginTop="30dp"
-        android:layout_width="wrap_content"
+        android:layout_width="200sp"
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/tvNameTag"
+            android:id="@+id/tvNameTask"
             android:textSize="18sp"
             android:textColor="@color/textTaskName"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="8dp"
-            android:text="name tag"
+            android:text="name task"
             android:gravity="left"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

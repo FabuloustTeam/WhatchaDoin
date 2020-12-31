@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -29,18 +30,22 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.logging.Logger;
 
 public class AddTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     EditText taskName;
     TextView chooseDate;
     TextView selectedTags;
+    CheckBox important;
+    Button addTask;
     DatabaseReference reference;
     Context context;
     Button chooseTag;
-//    ArrayList<String> listTags;
     boolean[] checkedTags;
     ArrayList<Integer> mUserTags = new ArrayList<>();
+    ArrayList<String> listTags = new ArrayList<String>();
+    long maxId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,42 +56,33 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         taskName = (EditText) findViewById(R.id.etTaskName);
         chooseDate = (TextView) findViewById(R.id.tvChooseDate);
         chooseTag = (Button) findViewById(R.id.btnChooseTag);
+        important = (CheckBox) findViewById(R.id.chkImportant);
         selectedTags = (TextView) findViewById(R.id.tvSelectedTags);
+        addTask = (Button) findViewById(R.id.btnAddTask);
+        loadTags();
 
-//        LinearLayoutManager horizontalLayoutManagaer = new LinearLayoutManager(AddTaskActivity.this, LinearLayoutManager.HORIZONTAL, false);
-//        recyclerView.setLayoutManager(horizontalLayoutManagaer);
-//        getTags();
-        ArrayList<String> listTags = new ArrayList<String>();
-//        getTags();
-
-        reference = FirebaseDatabase.getInstance().getReference().child("tag");
-        reference.addValueEventListener(new ValueEventListener() {
+        taskName.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
-                    Tag tagReceived = dataSnapshot.getValue(Tag.class);
-                    Tag tagParsed = new Tag();
-                    String taskName = tagReceived.getName();
-                    tagParsed.setName(taskName);
-                    listTags.add(tagParsed.getName());
+            public void onClick(View v) {
+                if (listTags.size() < 3) {
+                    loadTags();
+                } else {
+
                 }
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(AddTaskActivity.this, "No data", Toast.LENGTH_LONG).show();
-            }
         });
-
-        checkedTags = new boolean[listTags.size()];
-        String[] listNameTags = new String[listTags.size()];
-        for (int i = 0; i < listTags.size(); i++) {
-            listNameTags[i] = listTags.get(i);
-        }
 
         chooseTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                Logger.getLogger("debug000").warning(String.valueOf(listTags.size() + "After loadTags"));
+                checkedTags = new boolean[listTags.size()];
+                String[] listNameTags = new String[listTags.size()];
+                for (int i = 0; i < listTags.size(); i++) {
+                    listNameTags[i] = listTags.get(i);
+                }
+
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(AddTaskActivity.this);
                 mBuilder.setTitle(R.string.dialog_choose_tag_title);
                 mBuilder.setMultiChoiceItems(listNameTags, checkedTags, new DialogInterface.OnMultiChoiceClickListener() {
@@ -95,10 +91,13 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                         if (isChecked) {
                             if (!mUserTags.contains(position)) {
                                 mUserTags.add(position);
-                            } else {
-                                mUserTags.remove(position);
+                            }
+                        } else {
+                            if (mUserTags.contains(position)) {
+                                mUserTags.remove(mUserTags.indexOf(position));
                             }
                         }
+
                     }
                 });
                 mBuilder.setCancelable(false);
@@ -109,7 +108,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                         for (int i = 0; i < mUserTags.size(); i++) {
                             tag = tag + "#" + listNameTags[mUserTags.get(i)];
                             if (i != mUserTags.size() - 1) {
-                                tag = tag + ", ";
+                                tag = tag + "  ";
                             }
                         }
                         selectedTags.setText(tag);
@@ -139,11 +138,65 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             }
         });
 
-
         chooseDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDatePickerDialog();
+            }
+        });
+
+        reference = FirebaseDatabase.getInstance().getReference().child("task");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists()) {
+                    maxId = snapshot.getChildrenCount();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        addTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addNewTask();
+                finish();
+            }
+        });
+    }
+
+    private void addNewTask() {
+        Task task = new Task();
+        task.setName(taskName.getText().toString());
+        task.setDate(chooseDate.getText().toString());
+        task.setImportant(important.isChecked());
+        reference = FirebaseDatabase.getInstance().getReference().child("task");
+        reference.child(String.valueOf(maxId)).setValue(task);
+    }
+
+    public void loadTags() {
+        reference = FirebaseDatabase.getInstance().getReference().child("tag");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listTags.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Tag tagReceived = dataSnapshot.getValue(Tag.class);
+                    Tag tagParsed = new Tag();
+                    String taskName = tagReceived.getName();
+                    tagParsed.setName(taskName);
+                    listTags.add(tagParsed.getName());
+                }
+                Logger.getLogger("debug000").warning(String.valueOf(listTags.size() + "while at loagTags"));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(AddTaskActivity.this, "No data", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -165,54 +218,5 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         chooseDate.setText(date);
     }
 
-//    private void getTags() {
-//        reference = FirebaseDatabase.getInstance().getReference().child("tag");
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
-//                    Tag tagReceived = dataSnapshot.getValue(Tag.class);
-//                    Tag tagParsed = new Tag();
-//                    String taskName = tagReceived.getName();
-//                    tagParsed.setName(taskName);
-//                    listTags.add(tagParsed.getName());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(AddTaskActivity.this, "No data", Toast.LENGTH_LONG).show();
-//            }
-//        });
-//    }
-
-//    private void getTags() {
-//
-//        reference = FirebaseDatabase.getInstance().getReference().child("tag");
-//        reference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                ArrayList<Tag> listTags = new ArrayList<Tag>();
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//
-//                    Tag tagReceived = dataSnapshot.getValue(Tag.class);
-//                    Tag tagParsed = new Tag();
-//                    String tagName = tagReceived.getName();
-//                    tagParsed.setName(tagName);
-//                    tagParsed.setId(Integer.parseInt(dataSnapshot.getKey()));
-//                    listTags.add(tagParsed);
-//                }
-//                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-//                tagAdapter = new TagAdapter(context, listTags);
-//                recyclerView.setAdapter(tagAdapter);
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//
-//    }
 
 }
