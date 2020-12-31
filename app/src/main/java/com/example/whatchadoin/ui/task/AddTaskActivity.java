@@ -44,7 +44,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     Button chooseTag;
     boolean[] checkedTags;
     ArrayList<Integer> mUserTags = new ArrayList<>();
-    ArrayList<String> listTags = new ArrayList<String>();
+    ArrayList<Tag> listTags = new ArrayList<Tag>();
     long maxId;
 
     @Override
@@ -80,7 +80,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                 checkedTags = new boolean[listTags.size()];
                 String[] listNameTags = new String[listTags.size()];
                 for (int i = 0; i < listTags.size(); i++) {
-                    listNameTags[i] = listTags.get(i);
+                    listNameTags[i] = listTags.get(i).getName();
                 }
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(AddTaskActivity.this);
@@ -149,7 +149,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()) {
+                if (snapshot.exists()) {
                     maxId = snapshot.getChildrenCount();
                 }
             }
@@ -163,8 +163,14 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addNewTask();
-                finish();
+                if (taskName.getText().toString().isEmpty()) {
+                    Toast.makeText(context, "Please input name", Toast.LENGTH_LONG).show();
+                } else if (chooseDate.getText().toString().equals("  Choose date")) {
+                    Toast.makeText(context, "Please choose date", Toast.LENGTH_LONG).show();
+                } else {
+                    addNewTask();
+                    finish();
+                }
             }
         });
     }
@@ -172,11 +178,27 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     private void addNewTask() {
         Task task = new Task();
         task.setName(taskName.getText().toString());
-        task.setDate(chooseDate.getText().toString());
+        task.setDate(chooseDate.getText().toString().trim());
         task.setImportant(important.isChecked());
+
+        ArrayList<Integer> listTagOfTask = new ArrayList<Integer>();
+        if(!selectedTags.getText().toString().isEmpty()) {
+            String[] tags = selectedTags.getText().toString().split("#");
+            for (int i = 0; i < tags.length; i++) {
+                for (int j = 0; j < listTags.size(); j++) {
+                    if (listTags.get(j).getName().equals(tags[i].trim())) {
+                        listTagOfTask.add(listTags.get(j).getId());
+                    }
+                }
+            }
+        }
+
+        task.setTag(listTagOfTask);
+
         reference = FirebaseDatabase.getInstance().getReference().child("task");
         reference.child(String.valueOf(maxId)).setValue(task);
     }
+
 
     public void loadTags() {
         reference = FirebaseDatabase.getInstance().getReference().child("tag");
@@ -188,8 +210,9 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                     Tag tagReceived = dataSnapshot.getValue(Tag.class);
                     Tag tagParsed = new Tag();
                     String taskName = tagReceived.getName();
+                    tagParsed.setId(Integer.parseInt(dataSnapshot.getKey()));
                     tagParsed.setName(taskName);
-                    listTags.add(tagParsed.getName());
+                    listTags.add(tagParsed);
                 }
                 Logger.getLogger("debug000").warning(String.valueOf(listTags.size() + "while at loagTags"));
             }
