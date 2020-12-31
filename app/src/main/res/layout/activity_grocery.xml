@@ -35,13 +35,7 @@
             android:layout_height="48dp"
             android:ems="10"
             android:hint="Add a grocery item...."
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.942" />
+            android:inputType="textPersonName" />
 
         <Button
             android:id="@+id/btnAdd"
@@ -49,13 +43,7 @@
             android:layout_height="52dp"
             android:background="#03A9F4"
             android:text="add"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.982"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.942" />
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -80,34 +68,21 @@
         android:orientation="horizontal"
         android:layoutDirection="rtl">
         <Button
-            android:id="@+id/btnDelete"
+            android:id="@+id/btnSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="#FF0C0C"
-            android:text="Delete"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toTopOf="@+id/txtShow"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.95"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtName"
-            app:layout_constraintVertical_bias="1.0" />
+            android:text="search"
+            android:textColor="#FFFFFF"/>
 
-        <Button
-            android:id="@+id/btnEdit"
+        <EditText
+            android:id="@+id/edtSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="#673AB7"
-            android:text="Edit"
-            android:textColor="#FFFFFF"
-            app:layout_constraintBottom_toTopOf="@+id/txtShow"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.637"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtName"
-            app:layout_constraintVertical_bias="1.0"
-            android:layout_marginRight="10dp"/>
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="search..."
+            android:inputType="textPersonName" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

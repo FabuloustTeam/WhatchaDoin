@@ -1,15 +1,13 @@
 package com.example.whatchadoin.ui.grocery;
 
+import android.os.Bundle;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.whatchadoin.Adapter.GroceryAdapter;
 import com.example.whatchadoin.R;
@@ -20,12 +18,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class GroceryActivity extends AppCompatActivity {
 
-    private RecyclerView txtShow;
-    private EditText edtAdd;
+    private RecyclerView txtShow;//recycler view mà đặt là txt à
+    private EditText edtAdd, edtSearch; //edit text đặt là et
     private int maxKey;
+    private ValueEventListener defaultListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,24 +34,66 @@ public class GroceryActivity extends AppCompatActivity {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         txtShow = findViewById(R.id.txtShow);
         edtAdd = findViewById(R.id.edtAdd);
+        edtSearch = findViewById(R.id.edtSearch);
         txtShow.setLayoutManager(new LinearLayoutManager(this));
+        defaultListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Logger.getLogger("DEBUG").warning("fired!");
+                ArrayList<Grocery> groceries = new ArrayList<>();
+                ArrayList<Integer> keys = new ArrayList<>();
+                maxKey = 0;
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    groceries.add(data.getValue(Grocery.class));
+                    int key = Integer.parseInt(data.getKey());
+                    keys.add(key);
+                    maxKey = key > maxKey ? key : maxKey;
+                }
+                txtShow.setAdapter(new GroceryAdapter(groceries, keys));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(GroceryActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        };
         db.getReference("grocery")
-                .addValueEventListener(new ValueEventListener() {
+                .addValueEventListener(defaultListener);
+        findViewById(R.id.btnSearch).setOnClickListener(v -> {
+            String textSearch = edtSearch.getText().toString();
+            if (!textSearch.isEmpty()) {
+                db.getReference("grocery")
+                        .removeEventListener(defaultListener);
+                ValueEventListener temp = new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         ArrayList<Grocery> groceries = new ArrayList<>();
+                        ArrayList<Integer> keys = new ArrayList<>();
                         for (DataSnapshot data : snapshot.getChildren()) {
                             groceries.add(data.getValue(Grocery.class));
+                            int key = Integer.parseInt(data.getKey());
+                            keys.add(key);
                         }
-                        txtShow.setAdapter(new GroceryAdapter(groceries));
-                        txtShow.getAdapter().notifyDataSetChanged();
+                        txtShow.setAdapter(new GroceryAdapter(groceries, keys));
+                        db.getReference("grocery")
+                                .removeEventListener(this);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         Toast.makeText(GroceryActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                     }
-                });
+                };
+                db.getReference("grocery")
+                        .orderByChild("name")
+                        .equalTo(textSearch)
+                        .addValueEventListener(temp);
+            } else {
+                db.getReference("grocery")
+                        .addValueEventListener(defaultListener);
+            }
+        });
+
         findViewById(R.id.btnAdd).setOnClickListener(v -> {
             String strName = edtAdd.getText().toString();
             if (!strName.isEmpty()) {
