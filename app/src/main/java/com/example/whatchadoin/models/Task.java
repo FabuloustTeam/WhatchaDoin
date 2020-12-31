@@ -5,22 +5,21 @@ import java.util.ArrayList;
 public class Task {
     private String name;
     private String date;
-    private boolean isComplete;
+    private boolean completion;
     private boolean important;
-    private ArrayList<Integer> tagId;
+    private ArrayList<Integer> tag;
 
     public Task() {
 
     }
 
-    public Task(String name, String date, boolean isComplete, boolean important, ArrayList<Integer> tag) {
+    public Task(String name, String date, boolean completion, boolean important, ArrayList<Integer> tag) {
         this.name = name;
         this.date = date;
-        this.isComplete = isComplete;
+        this.completion = completion;
         this.important = important;
-        this.tagId = tag;
+        this.tag = tag;
     }
-
 
     public String getName() {
         return name;
@@ -38,12 +37,12 @@ public class Task {
         this.date = date;
     }
 
-    public boolean isComplete() {
-        return isComplete;
+    public boolean isCompletion() {
+        return completion;
     }
 
-    public void setComplete(boolean complete) {
-        isComplete = complete;
+    public void setCompletion(boolean complete) {
+        completion = complete;
     }
 
     public boolean isImportant() {
@@ -54,11 +53,11 @@ public class Task {
         this.important = important;
     }
 
-    public ArrayList<Integer> getTagId() {
-        return tagId;
+    public ArrayList<Integer> getTag() {
+        return tag;
     }
 
-    public void setTagId(ArrayList<Integer> tagId) {
-        this.tagId = tagId;
+    public void setTag(ArrayList<Integer> tag) {
+        this.tag = tag;
     }
 }

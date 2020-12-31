@@ -11,4 +11,5 @@
     <color name="shadow">#BBBBBB</color>
     <color name="textTaskName">#554E8F</color>
     <color name="textTaskDate">#C6C6C8</color>
+    <color name="important">#FFDC00</color>
 </resources>
