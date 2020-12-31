@@ -23,16 +23,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     Context context;
     ArrayList<Task> tasks;
+    private OnTaskListener mOnTaskListener;
 
-    public TaskAdapter(Context context, ArrayList<Task> tasks) {
+    public TaskAdapter(Context context, ArrayList<Task> tasks, OnTaskListener onTaskListener) {
         this.context = context;
         this.tasks = tasks;
+        this.mOnTaskListener = onTaskListener;
     }
+
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.task, parent, false));
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.task, parent, false), mOnTaskListener);
     }
 
 
@@ -59,19 +62,31 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         return tasks.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView date, nameTask;
         CheckBox complete;
         ImageView important;
+        OnTaskListener onTaskListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnTaskListener onTaskListener) {
             super(itemView);
             complete = (CheckBox) itemView.findViewById(R.id.chkComplete);
             date = (TextView) itemView.findViewById(R.id.tvDate);
             nameTask = (TextView) itemView.findViewById(R.id.tvNameTask);
             important = (ImageView) itemView.findViewById(R.id.ivImportant);
+            this.onTaskListener = onTaskListener;
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            onTaskListener.onTaskClick(getAdapterPosition());
         }
     }
 
+    public interface OnTaskListener {
+        void onTaskClick(int position);
+    }
 
 }

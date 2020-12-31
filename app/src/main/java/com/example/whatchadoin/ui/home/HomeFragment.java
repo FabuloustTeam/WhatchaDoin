@@ -23,6 +23,7 @@ import com.example.whatchadoin.R;
 import com.example.whatchadoin.models.Task;
 import com.example.whatchadoin.ui.tag.TagActivity;
 import com.example.whatchadoin.ui.task.AddTaskActivity;
+import com.example.whatchadoin.ui.task.UpdateTaskActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements TaskAdapter.OnTaskListener {
 
     private HomeViewModel homeViewModel;
     View v;
@@ -41,6 +42,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyViewTasks;
     TaskAdapter taskAdapter;
     Button add, today, important;
+    ArrayList<Task> listTasks = new ArrayList<Task>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -52,27 +54,24 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AddTaskActivity.class);
-                intent.putExtra("", "add task");
                 startActivity(intent);
             }
         });
-
 
 
         return root;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
-    {
-        super.onViewCreated(view,savedInstanceState);
-        this.v=view;
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.v = view;
         init();
 
     }
 
 
-    public void init(){
+    public void init() {
 
         recyViewTasks = (RecyclerView) root.findViewById(R.id.recyclerViewTasks);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -82,15 +81,17 @@ public class HomeFragment extends Fragment {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<Task> listTasks = new ArrayList<Task>();
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()) {
+                listTasks.clear();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Task taskReceived = dataSnapshot.getValue(Task.class);
                     Task taskParsed = new Task();
+                    int id = Integer.parseInt(dataSnapshot.getKey());
                     String taskName = taskReceived.getName();
                     boolean taskComplete = taskReceived.isCompletion();
                     String taskDate = taskReceived.getDate();
                     ArrayList<Integer> taskTag = taskReceived.getTag();
                     boolean taskImportant = taskReceived.isImportant();
+                    taskParsed.setId(id);
                     taskParsed.setName(taskName);
                     taskParsed.setCompletion(taskComplete);
                     taskParsed.setDate(taskDate);
@@ -99,7 +100,7 @@ public class HomeFragment extends Fragment {
                     listTasks.add(taskParsed);
                 }
                 recyViewTasks.setLayoutManager(new LinearLayoutManager(getContext()));
-                taskAdapter = new TaskAdapter(getContext(),listTasks);
+                taskAdapter = new TaskAdapter(getContext(), listTasks, HomeFragment.this::onTaskClick);
                 recyViewTasks.setAdapter(taskAdapter);
             }
 
@@ -111,4 +112,12 @@ public class HomeFragment extends Fragment {
 
     }
 
+    @Override
+    public void onTaskClick(int position) {
+        Intent intent = new Intent(getActivity(), UpdateTaskActivity.class);
+        intent.putExtra("KEY", listTasks.get(position).getId());
+//        Log.d("KEY", "onTaskClicked: "+position);
+//        Log.d("KEY", "onTaskClicked id: "+listTasks.get(position).getId());
+        startActivity(intent);
+    }
 }
