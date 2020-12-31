@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.whatchadoin.R;
 import com.example.whatchadoin.models.Tag;
+import com.example.whatchadoin.models.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,7 +46,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
     boolean[] checkedTags;
     ArrayList<Integer> mUserTags = new ArrayList<>();
     ArrayList<Tag> listTags = new ArrayList<Tag>();
-
+    Task taskParsed;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +61,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
 
 
         loadTags();
+        getTaskDetails();
 
         taskNameUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,8 +200,25 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
-                    HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
-                    taskNameUpdate.setText(hashMap.get("name").toString());
+                    Task taskReceived = dataSnapshot.getValue(Task.class);
+                    taskParsed = new Task();
+                    int id = Integer.parseInt(dataSnapshot.getKey());
+                    String taskName = taskReceived.getName();
+                    boolean taskComplete = taskReceived.isCompletion();
+                    String taskDate = taskReceived.getDate();
+                    ArrayList<Integer> taskTag = taskReceived.getTag();
+                    boolean taskImportant = taskReceived.isImportant();
+                    taskParsed.setId(id);
+                    taskParsed.setName(taskName);
+                    taskParsed.setCompletion(taskComplete);
+                    taskParsed.setDate(taskDate);
+                    taskParsed.setTag(taskTag);
+                    taskParsed.setImportant(taskImportant);
+
+                    taskNameUpdate.setText(taskParsed.getName());
+
+                    chooseDateUpdate.setText(taskParsed.getDate());
+                    importantUpdate.setChecked(taskParsed.isCompletion());
 
                 } catch (Exception ex) {
                     Log.e("Json error", ex.toString());
@@ -211,5 +230,12 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
                 Log.w("detail error", "loadPost:onCancelled", databaseError.toException());
             }
         });
+    }
+
+    private String getTagsOfTask(ArrayList<Tag> allTags) {
+        String tags = "";
+
+
+        return tags;
     }
 }

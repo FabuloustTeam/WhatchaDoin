@@ -115,7 +115,7 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnTaskListener
     @Override
     public void onTaskClick(int position) {
         Intent intent = new Intent(getActivity(), UpdateTaskActivity.class);
-        intent.putExtra("KEY", listTasks.get(position).getId());
+        intent.putExtra("KEY", String.valueOf(listTasks.get(position).getId()));
 //        Log.d("KEY", "onTaskClicked: "+position);
 //        Log.d("KEY", "onTaskClicked id: "+listTasks.get(position).getId());
         startActivity(intent);
