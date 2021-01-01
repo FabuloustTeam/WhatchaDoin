@@ -43,10 +43,12 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
     DatabaseReference reference;
     Context context;
     Button chooseTagUpdate;
+    String[] listNameTags;
     boolean[] checkedTags;
     ArrayList<Integer> mUserTags = new ArrayList<>();
     ArrayList<Tag> listTags = new ArrayList<Tag>();
     Task taskParsed;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +60,6 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
         chooseDateUpdate = (TextView) findViewById(R.id.tvChooseDateUpdate);
         importantUpdate = (CheckBox) findViewById(R.id.chkImportantUpdate);
         updateTask = (Button) findViewById(R.id.btnUpdateTask);
-
 
         loadTags();
         getTaskDetails();
@@ -74,15 +75,20 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
             }
         });
 
+
+
         chooseTagUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Logger.getLogger("debug000").warning(String.valueOf(listTags.size() + "After loadTags"));
-                checkedTags = new boolean[listTags.size()];
-                String[] listNameTags = new String[listTags.size()];
-                for (int i = 0; i < listTags.size(); i++) {
-                    listNameTags[i] = listTags.get(i).getName();
+                if(listNameTags == null) {
+                    listNameTags = new String[listTags.size()];
+                    for (int i = 0; i < listTags.size(); i++) {
+                        listNameTags[i] = listTags.get(i).getName();
+                    }
+                }
+                if(checkedTags == null) {
+                    checkedTags = new boolean[listTags.size()];
                 }
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(UpdateTaskActivity.this);
@@ -90,6 +96,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
                 mBuilder.setMultiChoiceItems(listNameTags, checkedTags, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                        checkedTags[position] = isChecked;
                         if (isChecked) {
                             if (!mUserTags.contains(position)) {
                                 mUserTags.add(position);
@@ -217,7 +224,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
 
                     taskNameUpdate.setText(taskParsed.getName());
 
-                    chooseDateUpdate.setText(taskParsed.getDate());
+                    chooseDateUpdate.setText("  " + taskParsed.getDate());
                     importantUpdate.setChecked(taskParsed.isCompletion());
 
                 } catch (Exception ex) {

@@ -44,8 +44,9 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     Button chooseTag;
     boolean[] checkedTags;
     ArrayList<Integer> mUserTags = new ArrayList<>();
-    ArrayList<Tag> listTags = new ArrayList<Tag>();
+    ArrayList<Tag> listTags = new ArrayList<>();
     long maxId;
+    String[] listNameTags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,28 +60,37 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         important = (CheckBox) findViewById(R.id.chkImportant);
         selectedTags = (TextView) findViewById(R.id.tvSelectedTags);
         addTask = (Button) findViewById(R.id.btnAddTask);
+
         loadTags();
+
 
         taskName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listTags.size() < 3) {
                     loadTags();
+
                 } else {
 
                 }
+
             }
         });
+
 
         chooseTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Logger.getLogger("debug000").warning(String.valueOf(listTags.size() + "After loadTags"));
-                checkedTags = new boolean[listTags.size()];
-                String[] listNameTags = new String[listTags.size()];
-                for (int i = 0; i < listTags.size(); i++) {
-                    listNameTags[i] = listTags.get(i).getName();
+
+                if(listNameTags == null) {
+                    listNameTags = new String[listTags.size()];
+                    for (int i = 0; i < listTags.size(); i++) {
+                        listNameTags[i] = listTags.get(i).getName();
+                    }
+                }
+                if(checkedTags == null) {
+                    checkedTags = new boolean[listTags.size()];
                 }
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(AddTaskActivity.this);
@@ -88,6 +98,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                 mBuilder.setMultiChoiceItems(listNameTags, checkedTags, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                        checkedTags[position] = isChecked;
                         if (isChecked) {
                             if (!mUserTags.contains(position)) {
                                 mUserTags.add(position);
@@ -97,7 +108,6 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                                 mUserTags.remove(mUserTags.indexOf(position));
                             }
                         }
-
                     }
                 });
                 mBuilder.setCancelable(false);
@@ -174,6 +184,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             }
         });
     }
+
 
     private void addNewTask() {
         Task task = new Task();
