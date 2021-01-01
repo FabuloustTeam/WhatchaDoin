@@ -8,26 +8,7 @@
     tools:context=".ui.grocery.GroceryActivity"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Grocery"
-            android:textSize="18dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tvGroceryName"
-            android:text="Grocery name"
-            android:textSize="14dp"
-            android:layout_marginTop="10dp"/>
-    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/searchContainer"
@@ -54,13 +35,37 @@
 
         <EditText
             android:id="@+id/etSearch"
-            android:layout_width="wrap_content"
+            android:layout_width="293dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="search..."
+            android:hint="Search"
             android:inputType="textPersonName" />
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Grocery"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tvGroceryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Grocery name"
+            android:textSize="14dp" />
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/addItem"
         android:layout_width="match_parent"
@@ -76,7 +81,7 @@
             android:layout_width="320dp"
             android:layout_height="48dp"
             android:ems="10"
-            android:hint="Add a grocery item...."
+            android:hint="Add a grocery item..."
             android:inputType="textPersonName" />
 
         <ImageButton
@@ -92,7 +97,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/txtShow"
+        android:id="@+id/tvListItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"

@@ -32,7 +32,7 @@ public class GroceryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grocery);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        txtShow = findViewById(R.id.txtShow);
+        txtShow = findViewById(R.id.tvListItem);
         edtAdd = findViewById(R.id.etAdd);
         edtSearch = findViewById(R.id.edtSearch);
         txtShow.setLayoutManager(new LinearLayoutManager(this));
