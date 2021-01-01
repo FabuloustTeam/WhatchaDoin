@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,24 +28,25 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class TagActivity extends AppCompatActivity {
     ListView lvList;
-    ArrayAdapter adapter;
+    ArrayAdapter<String> adapter;
     Button add;
-    SearchView searchModule;
+    EditText inputsearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tag);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         lvList = findViewById(R.id.lvListTag);
         lvList.setAdapter(adapter);
         lvList.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
         add = findViewById(R.id.btnAdd);
-        searchModule=findViewById(R.id.searchView);
+        inputsearch=(EditText)findViewById(R.id.txtSearch);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +66,7 @@ public class TagActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("tag");
         myRef.addValueEventListener(new ValueEventListener() {
@@ -76,17 +80,20 @@ public class TagActivity extends AppCompatActivity {
                     adapter.add(key + "    #" + tagName);
                     lvList.setFilterText(tagName);
                 }
-                searchModule.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                inputsearch.addTextChangedListener(new TextWatcher() {
                     @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        adapter.getFilter().filter(query);
-                        return false;
+                    public void onTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
+                        (TagActivity.this).adapter.getFilter().filter(s.toString());
                     }
 
                     @Override
-                    public boolean onQueryTextChange(String newText) {
-                        adapter.getFilter().filter(newText);
-                        return false;
+                    public void beforeTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable arg0) {
+
                     }
                 });
             }
@@ -96,5 +103,6 @@ public class TagActivity extends AppCompatActivity {
 
             }
         });
+
     }
 }
