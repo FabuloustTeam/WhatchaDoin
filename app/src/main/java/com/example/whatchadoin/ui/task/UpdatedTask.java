@@ -1,33 +1,24 @@
-package com.example.whatchadoin.models;
+package com.example.whatchadoin.ui.task;
 
 import java.util.ArrayList;
 
-public class Task {
+public class UpdatedTask {
     private String name;
     private String date;
     private boolean completion;
     private boolean important;
     private ArrayList<Integer> tag;
-    private int id;
 
-    public Task() {
+    public UpdatedTask() {
 
     }
 
-    public Task(String name, String date, boolean completion, boolean important, ArrayList<Integer> tag) {
+    public UpdatedTask(String name, String date, boolean completion, boolean important, ArrayList<Integer> tag) {
         this.name = name;
         this.date = date;
         this.completion = completion;
         this.important = important;
         this.tag = tag;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {

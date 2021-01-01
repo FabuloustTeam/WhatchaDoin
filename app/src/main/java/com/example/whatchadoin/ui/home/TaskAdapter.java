@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.whatchadoin.R;
 import com.example.whatchadoin.models.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -55,6 +58,19 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
                     DrawableCompat.wrap(holder.important.getDrawable()),
                     ContextCompat.getColor(context, R.color.notimportant));
         }
+        holder.complete.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                int id = tasks.get(position).getId();
+                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("task");
+                if(isChecked) {
+                    reference.child(String.valueOf(id)).child("completion").setValue(true);
+                } else {
+                    reference.child(String.valueOf(id)).child("completion").setValue(false);
+                }
+            }
+        });
+
     }
 
     @Override

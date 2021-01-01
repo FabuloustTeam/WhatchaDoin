@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.whatchadoin.R;
 import com.example.whatchadoin.models.Tag;
 import com.example.whatchadoin.models.Task;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,8 +40,9 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
     TextView chooseDateUpdate;
     TextView selectedTagsUpdate;
     CheckBox importantUpdate;
-    Button updateTask;
-    DatabaseReference reference;
+    Button updateTask, deleteTask;
+    DatabaseReference referenceTag;
+    DatabaseReference referenceTask;
     Context context;
     Button chooseTagUpdate;
     String[] listNameTags;
@@ -60,9 +62,10 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
         chooseDateUpdate = (TextView) findViewById(R.id.tvChooseDateUpdate);
         importantUpdate = (CheckBox) findViewById(R.id.chkImportantUpdate);
         updateTask = (Button) findViewById(R.id.btnUpdateTask);
+        deleteTask = (Button) findViewById(R.id.btnDeleteTask);
 
-        loadTags();
-        getTaskDetails();
+        getReady();
+
 
         taskNameUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,19 +79,23 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
         });
 
 
-
         chooseTagUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Logger.getLogger("debug000").warning(String.valueOf(listTags.size() + "After loadTags"));
-                if(listNameTags == null) {
+
+                if (checkedTags == null) {
+                    checkedTags = new boolean[listTags.size()];
+                }
+                if (listNameTags == null) {
                     listNameTags = new String[listTags.size()];
                     for (int i = 0; i < listTags.size(); i++) {
                         listNameTags[i] = listTags.get(i).getName();
+                        if(taskParsed.getTag().contains(listTags.get(i).getId())) {
+                            mUserTags.add(i);
+                            checkedTags[i] = true;
+                        }
                     }
-                }
-                if(checkedTags == null) {
-                    checkedTags = new boolean[listTags.size()];
                 }
 
                 AlertDialog.Builder mBuilder = new AlertDialog.Builder(UpdateTaskActivity.this);
@@ -154,12 +161,97 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
             }
         });
 
+        updateTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(taskNameUpdate.getText().toString().isEmpty()) {
+                    if(taskNameUpdate.getText().toString().trim().isEmpty()) {
+                        Toast.makeText(context, "Please input name",Toast.LENGTH_LONG).show();
+                    }
+                } else if(chooseDateUpdate.getText().toString().isEmpty()) {
+                    Toast.makeText(context, "Please input date",Toast.LENGTH_LONG).show();
+                } else {
+                    UpdatedTask updatedTask = new UpdatedTask();
+                    updatedTask.setName(taskNameUpdate.getText().toString().trim());
+                    updatedTask.setDate(chooseDateUpdate.getText().toString().trim());
+                    updatedTask.setImportant(importantUpdate.isChecked());
+
+                    ArrayList<Integer> listTagOfTaskUpdate = new ArrayList<Integer>();
+                    if(!selectedTagsUpdate.getText().toString().isEmpty()) {
+                        String[] tags = selectedTagsUpdate.getText().toString().split("#");
+                        for (int i = 0; i < tags.length; i++) {
+                            for (int j = 0; j < listTags.size(); j++) {
+                                if (listTags.get(j).getName().equals(tags[i].trim())) {
+                                    listTagOfTaskUpdate.add(listTags.get(j).getId());
+                                }
+                            }
+                        }
+                    }
+                    updatedTask.setTag(listTagOfTaskUpdate);
+
+                    referenceTask = FirebaseDatabase.getInstance().getReference().child("task");
+                    referenceTask.child(String.valueOf(taskParsed.getId())).setValue(updatedTask).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(context, "Update task successfully", Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                    });
+                }
+            }
+        });
+
+        deleteTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog diaBox = AskOption();
+                diaBox.show();
+            }
+        });
     }
 
+    private AlertDialog AskOption()
+    {
+        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
+                // set message, title, and icon
+                .setTitle("Delete")
+                .setMessage("Do you want to delete this task?")
+
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        referenceTask = FirebaseDatabase.getInstance().getReference().child("task");
+                        referenceTask.child(String.valueOf(taskParsed.getId())).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(context, "Delete task successfully", Toast.LENGTH_LONG).show();
+                                finish();
+                            }
+                        });
+                        dialog.dismiss();
+                    }
+
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+
+                    }
+                })
+                .create();
+
+        return myQuittingDialogBox;
+    }
+
+    private void getReady() {
+        loadTags();
+        getTaskDetails();
+    }
 
     public void loadTags() {
-        reference = FirebaseDatabase.getInstance().getReference().child("tag");
-        reference.addValueEventListener(new ValueEventListener() {
+        referenceTag = FirebaseDatabase.getInstance().getReference().child("tag");
+        referenceTag.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listTags.clear();
@@ -201,9 +293,9 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
     private void getTaskDetails() {
         Intent intent = getIntent();
         final String key = intent.getStringExtra("KEY");
-        reference = FirebaseDatabase.getInstance().getReference("task");
+        referenceTask = FirebaseDatabase.getInstance().getReference("task");
 
-        reference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+        referenceTask.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
@@ -215,15 +307,20 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
                     String taskDate = taskReceived.getDate();
                     ArrayList<Integer> taskTag = taskReceived.getTag();
                     boolean taskImportant = taskReceived.isImportant();
+
                     taskParsed.setId(id);
                     taskParsed.setName(taskName);
                     taskParsed.setCompletion(taskComplete);
                     taskParsed.setDate(taskDate);
                     taskParsed.setTag(taskTag);
                     taskParsed.setImportant(taskImportant);
+                    taskParsed.setTag(taskTag);
 
                     taskNameUpdate.setText(taskParsed.getName());
-
+                    if(taskParsed.getTag().size() != 0) {
+                        String tagValue = getTagsOfTask(taskParsed.getTag());
+                        selectedTagsUpdate.setText(tagValue);
+                    }
                     chooseDateUpdate.setText("  " + taskParsed.getDate());
                     importantUpdate.setChecked(taskParsed.isCompletion());
 
@@ -239,10 +336,26 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
         });
     }
 
-    private String getTagsOfTask(ArrayList<Tag> allTags) {
+    private String getTagsOfTask(ArrayList<Integer> tagsOfTask) {
         String tags = "";
-
-
+        for (int i = 0; i < tagsOfTask.size(); i++) {
+            String temp = getNameInAllTags(tagsOfTask.get(i));
+            tags = tags + "#" + temp;
+            if (i != tagsOfTask.size() - 1) {
+                tags = tags + "  ";
+            }
+        }
         return tags;
+    }
+
+    private String getNameInAllTags(int id) {
+        String name = "";
+        for (int j = 0; j < listTags.size(); j++) {
+            if (listTags.get(j).getId() == id) {
+                name = listTags.get(j).getName();
+                break;
+            }
+        }
+        return name;
     }
 }
