@@ -33,7 +33,7 @@ public class GroceryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_grocery);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         txtShow = findViewById(R.id.txtShow);
-        edtAdd = findViewById(R.id.edtAdd);
+        edtAdd = findViewById(R.id.etAdd);
         edtSearch = findViewById(R.id.edtSearch);
         txtShow.setLayoutManager(new LinearLayoutManager(this));
         defaultListener = new ValueEventListener() {

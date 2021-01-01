@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.whatchadoin.R;
 import com.example.whatchadoin.models.Grocery;
 import com.example.whatchadoin.ui.grocery.EditGroceryActivity;
+import com.example.whatchadoin.ui.item.ItemActivity;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.GroceryV
         holder.tvName.setText(dataSet.get(position).getName());
         String key = String.valueOf(keys.get(position));
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(holder.itemView.getContext(), EditGroceryActivity.class);
+            Intent intent = new Intent(holder.itemView.getContext(), ItemActivity.class);
             intent.putExtra("GROCERY_KEY", key).putExtra("GROCERY_NAME", dataSet.get(position).getName());
             holder.itemView.getContext().startActivity(intent);
         });

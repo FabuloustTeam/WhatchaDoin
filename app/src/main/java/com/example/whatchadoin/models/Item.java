@@ -2,15 +2,15 @@ package com.example.whatchadoin.models;
 
 public class Item {
     private String name;
-    private int groceryId;
+    private int grocery;
 
     public Item() {
 
     }
 
-    public Item(String name, int groceryId) {
+    public Item(String name, int grocery) {
         this.name = name;
-        this.groceryId = groceryId;
+        this.grocery = grocery;
     }
 
     public String getName() {
@@ -21,11 +21,11 @@ public class Item {
         this.name = name;
     }
 
-    public int getGroceryId() {
-        return groceryId;
+    public int getGrocery() {
+        return grocery;
     }
 
-    public void setGroceryId(int groceryId) {
-        this.groceryId = groceryId;
+    public void setGrocery(int grocery) {
+        this.grocery = grocery;
     }
 }

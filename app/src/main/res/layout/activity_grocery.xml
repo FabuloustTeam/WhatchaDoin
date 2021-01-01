@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.459" />
 
     <LinearLayout
-        android:id="@+id/bottomContainer"
+        android:id="@+id/addItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,7 +30,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp">
         <EditText
-            android:id="@+id/edtAdd"
+            android:id="@+id/etAdd"
             android:layout_width="320dp"
             android:layout_height="48dp"
             android:ems="10"
@@ -50,16 +50,16 @@
         android:id="@+id/txtShow"
         android:layout_width="408dp"
         android:layout_height="407dp"
-        app:layout_constraintBottom_toBottomOf="@id/bottomContainer"
+        app:layout_constraintBottom_toBottomOf="@id/addItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/container"
+        app:layout_constraintTop_toBottomOf="@id/searchContainer"
         app:layout_constraintVertical_bias="0.608"
         android:layout_marginTop="10dp" />
 
     <LinearLayout
-        android:id="@+id/container"
+        android:id="@+id/searchContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/txtName"
