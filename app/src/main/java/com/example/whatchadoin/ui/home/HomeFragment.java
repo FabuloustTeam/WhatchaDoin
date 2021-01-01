@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,7 +38,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Logger;
 
 public class HomeFragment extends Fragment implements TaskAdapter.OnTaskListener {
@@ -47,11 +52,14 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnTaskListener
     View root;
     DatabaseReference reference;
     RecyclerView recyViewTasks;
-    TaskAdapter taskAdapter;
-    Button add, today, important;
+    TaskAdapter taskAdapter, todayTaskAdapter, importantTaskAdapter;
+    Button add;
     EditText searchTask;
     Spinner typeTask;
     ArrayList<Task> listTasks = new ArrayList<Task>();
+    ArrayList<Task> listTodayTasks = new ArrayList<Task>();
+    ArrayList<Task> listImportantTasks = new ArrayList<Task>();
+    String selectedTypeTask = "All tasks";
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -91,6 +99,24 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnTaskListener
         ArrayAdapter<String> spnAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.type_task));
         spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         typeTask.setAdapter(spnAdapter);
+        typeTask.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                String selectedTypeTask = adapterView.getItemAtPosition(position).toString();
+                if(selectedTypeTask.equals("All tasks")) {
+                    recyViewTasks.setAdapter(taskAdapter);
+                } else if (selectedTypeTask.equals("Today")) {
+                    recyViewTasks.setAdapter(todayTaskAdapter);
+                } else if(selectedTypeTask.equals("Important")) {
+                    recyViewTasks.setAdapter(importantTaskAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         return root;
     }
@@ -115,6 +141,15 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnTaskListener
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listTasks.clear();
+                listTodayTasks.clear();
+                listImportantTasks.clear();
+                Date dateTask;
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                Date today = calendar.getTime();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Task taskReceived = dataSnapshot.getValue(Task.class);
                     Task taskParsed = new Task();
@@ -131,9 +166,22 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnTaskListener
                     taskParsed.setTag(taskTag);
                     taskParsed.setImportant(taskImportant);
                     listTasks.add(taskParsed);
+                    if(taskParsed.isImportant()) {
+                        listImportantTasks.add(taskParsed);
+                    }
+                    try {
+                        dateTask = new SimpleDateFormat("dd/MM/yyyy").parse(taskParsed.getDate());
+                        if(!dateTask.before(today) && !dateTask.after(today)) {
+                            listTodayTasks.add(taskParsed);
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
                 recyViewTasks.setLayoutManager(new LinearLayoutManager(getContext()));
                 taskAdapter = new TaskAdapter(getContext(), listTasks, HomeFragment.this::onTaskClick);
+                todayTaskAdapter = new TaskAdapter(getContext(), listTodayTasks, HomeFragment.this::onTaskClick);
+                importantTaskAdapter = new TaskAdapter(getContext(), listImportantTasks, HomeFragment.this::onTaskClick);
                 recyViewTasks.setAdapter(taskAdapter);
             }
 
@@ -147,20 +195,46 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnTaskListener
 
     public void searchTask(String searching) {
         if(searching.isEmpty()) {
-            recyViewTasks.setAdapter(taskAdapter);
+            if(selectedTypeTask.equals("All tasks")) {
+                recyViewTasks.setAdapter(taskAdapter);
+            } else if (selectedTypeTask.equals("Today")) {
+                recyViewTasks.setAdapter(todayTaskAdapter);
+            } else if(selectedTypeTask.equals("Important")) {
+                recyViewTasks.setAdapter(importantTaskAdapter);
+            }
         } else {
             ArrayList<Task> listSearchResult = new ArrayList<>();
-            for(int i = 0; i < listTasks.size(); i++) {
-                Task temp = listTasks.get(i);
-                if(temp.getName().toLowerCase().contains(searching.toLowerCase()) ||
-                    temp.getDate().contains(searching)) {
-                    listSearchResult.add(listTasks.get(i));
+            if(selectedTypeTask.equals("All tasks")) {
+                for(int i = 0; i < listTasks.size(); i++) {
+                    Task temp = listTasks.get(i);
+                    if(temp.getName().toLowerCase().contains(searching.toLowerCase()) ||
+                            temp.getDate().contains(searching)) {
+                        listSearchResult.add(listTasks.get(i));
+                    }
+                }
+            } else if (selectedTypeTask.equals("Today")) {
+                for(int i = 0; i < listTodayTasks.size(); i++) {
+                    Task temp = listTodayTasks.get(i);
+                    if(temp.getName().toLowerCase().contains(searching.toLowerCase()) ||
+                            temp.getDate().contains(searching)) {
+                        listSearchResult.add(listTodayTasks.get(i));
+                    }
+                }
+            } else if(selectedTypeTask.equals("Important")) {
+                for(int i = 0; i < listImportantTasks.size(); i++) {
+                    Task temp = listImportantTasks.get(i);
+                    if(temp.getName().toLowerCase().contains(searching.toLowerCase()) ||
+                            temp.getDate().contains(searching)) {
+                        listSearchResult.add(listImportantTasks.get(i));
+                    }
                 }
             }
+
             TaskAdapter searchResultAdapter = new TaskAdapter(getContext(), listSearchResult, HomeFragment.this::onTaskClick);
             recyViewTasks.setAdapter(searchResultAdapter);
         }
     }
+
 
     @Override
     public void onTaskClick(int position) {

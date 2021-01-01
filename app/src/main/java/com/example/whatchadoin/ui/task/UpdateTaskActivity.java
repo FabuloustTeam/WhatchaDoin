@@ -91,9 +91,11 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
                     listNameTags = new String[listTags.size()];
                     for (int i = 0; i < listTags.size(); i++) {
                         listNameTags[i] = listTags.get(i).getName();
-                        if(taskParsed.getTag().contains(listTags.get(i).getId())) {
-                            mUserTags.add(i);
-                            checkedTags[i] = true;
+                        if(taskParsed.getTag() != null) {
+                            if(taskParsed.getTag().contains(listTags.get(i).getId())) {
+                                mUserTags.add(i);
+                                checkedTags[i] = true;
+                            }
                         }
                     }
                 }
@@ -168,13 +170,14 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
                     if(taskNameUpdate.getText().toString().trim().isEmpty()) {
                         Toast.makeText(context, "Please input name",Toast.LENGTH_LONG).show();
                     }
-                } else if(chooseDateUpdate.getText().toString().isEmpty()) {
+                } else if(chooseDateUpdate.getText().toString().equals("  Choose date")) {
                     Toast.makeText(context, "Please input date",Toast.LENGTH_LONG).show();
                 } else {
                     UpdatedTask updatedTask = new UpdatedTask();
                     updatedTask.setName(taskNameUpdate.getText().toString().trim());
                     updatedTask.setDate(chooseDateUpdate.getText().toString().trim());
                     updatedTask.setImportant(importantUpdate.isChecked());
+                    updatedTask.setCompletion(taskParsed.isCompletion());
 
                     ArrayList<Integer> listTagOfTaskUpdate = new ArrayList<Integer>();
                     if(!selectedTagsUpdate.getText().toString().isEmpty()) {
@@ -322,7 +325,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
                         selectedTagsUpdate.setText(tagValue);
                     }
                     chooseDateUpdate.setText("  " + taskParsed.getDate());
-                    importantUpdate.setChecked(taskParsed.isCompletion());
+                    importantUpdate.setChecked(taskParsed.isImportant());
 
                 } catch (Exception ex) {
                     Log.e("Json error", ex.toString());
