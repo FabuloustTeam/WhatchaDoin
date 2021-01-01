@@ -7,4 +7,9 @@
     <string name="OK_label">OK</string>
     <string name="dismiss_label">Dismiss</string>
     <string name="clear_all_label">Clear all</string>
+    <string-array name="type_task">
+        <item>All tasks</item>
+        <item>Today</item>
+        <item>Important</item>
+    </string-array>
 </resources>

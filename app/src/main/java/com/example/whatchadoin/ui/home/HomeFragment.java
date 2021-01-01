@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +50,7 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnTaskListener
     TaskAdapter taskAdapter;
     Button add, today, important;
     EditText searchTask;
+    Spinner typeTask;
     ArrayList<Task> listTasks = new ArrayList<Task>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -83,6 +86,11 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnTaskListener
 
             }
         });
+
+        typeTask = (Spinner) root.findViewById(R.id.spinnerTypeTask);
+        ArrayAdapter<String> spnAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.type_task));
+        spnAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeTask.setAdapter(spnAdapter);
 
         return root;
     }
