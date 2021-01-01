@@ -3,12 +3,15 @@ package com.example.whatchadoin.ui.home;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +47,7 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnTaskListener
     RecyclerView recyViewTasks;
     TaskAdapter taskAdapter;
     Button add, today, important;
+    EditText searchTask;
     ArrayList<Task> listTasks = new ArrayList<Task>();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -62,6 +66,23 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnTaskListener
             }
         });
 
+        searchTask = (EditText) root.findViewById(R.id.etSearchTask);
+        searchTask.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                searchTask(charSequence.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         return root;
     }
@@ -114,6 +135,23 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnTaskListener
             }
         });
 
+    }
+
+    public void searchTask(String searching) {
+        if(searching.isEmpty()) {
+            recyViewTasks.setAdapter(taskAdapter);
+        } else {
+            ArrayList<Task> listSearchResult = new ArrayList<>();
+            for(int i = 0; i < listTasks.size(); i++) {
+                Task temp = listTasks.get(i);
+                if(temp.getName().toLowerCase().contains(searching.toLowerCase()) ||
+                    temp.getDate().contains(searching)) {
+                    listSearchResult.add(listTasks.get(i));
+                }
+            }
+            TaskAdapter searchResultAdapter = new TaskAdapter(getContext(), listSearchResult, HomeFragment.this::onTaskClick);
+            recyViewTasks.setAdapter(searchResultAdapter);
+        }
     }
 
     @Override
