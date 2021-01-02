@@ -5,22 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".ui.grocery.GroceryActivity"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    tools:context=".ui.grocery.GroceryActivity">
 
 
     <LinearLayout
         android:id="@+id/searchContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
         android:layoutDirection="rtl"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        tools:layout_editor_absoluteX="0dp">
 
         <ImageButton
             android:id="@+id/btnSearch"
@@ -30,17 +29,17 @@
             android:adjustViewBounds="false"
             android:background="#00FFFFFF"
             android:cropToPadding="false"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/searchItem" />
+            android:scaleType="centerInside" />
 
         <EditText
-            android:id="@+id/etSearch"
+            android:id="@+id/etSearchItem"
             android:layout_width="293dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
             android:hint="Search"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            app:srcCompat="@drawable/searchitem"/>
     </LinearLayout>
 
     <LinearLayout
@@ -70,14 +69,14 @@
         android:id="@+id/addItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="UnknownId">
 
         <EditText
-            android:id="@+id/etAdd"
+            android:id="@+id/etAddNameItem"
             android:layout_width="320dp"
             android:layout_height="48dp"
             android:ems="10"
@@ -93,11 +92,11 @@
             android:background="#00FFFFFF"
             android:cropToPadding="false"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/arrowAddItem" />
+            app:srcCompat="@drawable/arrowadditem" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/tvListItem"
+        android:id="@+id/rvListItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"

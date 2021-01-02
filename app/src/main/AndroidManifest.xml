@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatchaDoin">
-        <activity android:name=".ui.item.ItemUpdate"></activity>
+        <activity android:name=".ui.item.ItemUpdateActivity"></activity>
         <activity android:name=".ui.item.ItemActivity" />
         <activity android:name=".ui.statistic.StatisticActivity" />
         <activity android:name=".ui.grocery.GroceryActivity" />

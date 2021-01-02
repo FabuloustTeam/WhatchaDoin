@@ -1,0 +1,85 @@
+{
+  "project_info": {
+    "project_number": "359523382696",
+    "firebase_url": "https://whatchadoin-ae46b-default-rtdb.firebaseio.com",
+    "project_id": "whatchadoin-ae46b",
+    "storage_bucket": "whatchadoin-ae46b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359523382696:android:6d2d51f721fd7111e1599d",
+        "android_client_info": {
+          "package_name": "com.example.testdatabase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359523382696-rb4apt4t79rvrno1i665jpamignedsg1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEIZvuncHz6ANeTsjUgHa0PWEcH8U56ME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "359523382696-rb4apt4t79rvrno1i665jpamignedsg1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359523382696:android:750c832050bbd433e1599d",
+        "android_client_info": {
+          "package_name": "com.example.whatchadoin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "359523382696-1ji8dad8qeeqddiiipam3ogtb010bvdh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.whatchadoin",
+            "certificate_hash": "2d1c7c4a257af5daf027cde65f41e0e43b61ac9a"
+          }
+        },
+        {
+          "client_id": "359523382696-btmuqe3ndc5cbfc2gjei06u902n5cs7r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.whatchadoin",
+            "certificate_hash": "89272fec01dcb577d80e0353e29a31f45a7ba001"
+          }
+        },
+        {
+          "client_id": "359523382696-rb4apt4t79rvrno1i665jpamignedsg1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEIZvuncHz6ANeTsjUgHa0PWEcH8U56ME"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "359523382696-rb4apt4t79rvrno1i665jpamignedsg1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
