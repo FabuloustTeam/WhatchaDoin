@@ -39,7 +39,6 @@ public class GroceryActivity extends AppCompatActivity {
         defaultListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Logger.getLogger("DEBUG").warning("fired!");
                 ArrayList<Grocery> groceries = new ArrayList<>();
                 ArrayList<Integer> keys = new ArrayList<>();
                 maxKey = 0;
