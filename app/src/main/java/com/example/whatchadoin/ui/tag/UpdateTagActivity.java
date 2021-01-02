@@ -111,9 +111,17 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Task tmpTask = snapshot.getValue(Task.class);
-                    if (tmpTask.getTag().contains(Integer.parseInt(key))) {
-                        String keyTag = String.valueOf(tmpTask.getTag().indexOf(Integer.parseInt(key)));
-                        taskReference.child(snapshot.getKey()).child("tag").child(keyTag).setValue(null);
+                    if (tmpTask.getTag() != null) {
+                        if (tmpTask.getTag().contains(Integer.parseInt(key))) {
+                            ArrayList<Integer> listTagId = tmpTask.getTag();
+                            listTagId.remove(tmpTask.getTag().indexOf(Integer.parseInt(key)));
+                            tmpTask.setId(Integer.parseInt(snapshot.getKey()));
+                            tmpTask.setTag(listTagId);
+//                            Task updatedTask = new Task();
+//                            updatedTask.setTag(listTagId);
+//
+                            taskReference.child(String.valueOf(tmpTask.getId())).setValue(tmpTask);
+                        }
                     }
                 }
             }
