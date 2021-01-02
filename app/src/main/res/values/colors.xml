@@ -17,4 +17,6 @@
     <color name="round_button_color">#D3D3D3</color>
     <color name="round_gradient_button_start_color">#79CBCA</color>
     <color name="round_gradient_button_end_color">#77A1D3 </color>
+    <color name="important">#FFDC00</color>
+    <color name="notimportant">#D9D9D9</color>
 </resources>

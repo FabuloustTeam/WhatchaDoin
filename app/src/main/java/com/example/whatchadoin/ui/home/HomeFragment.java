@@ -54,9 +54,9 @@ public class HomeFragment extends Fragment {
                     Task taskTmp = dataSnapshot.getValue(Task.class);
                     listTasks.add(taskTmp);
                 }
-                taskAdapter = new TaskAdapter(getActivity(), listTasks);
-                recyViewTasks.setAdapter(taskAdapter);
-                taskAdapter.notifyDataSetChanged();
+//                taskAdapter = new TaskAdapter(getActivity(), listTasks);
+//                recyViewTasks.setAdapter(taskAdapter);
+//                taskAdapter.notifyDataSetChanged();
             }
 
             @Override

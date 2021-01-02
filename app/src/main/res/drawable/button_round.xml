@@ -3,7 +3,7 @@
     <item>
         <shape android:shape="oval">
             <solid android:color="@color/round_gradient_button_start_color"/>
-            <size android:width="10dp" android:height="10dp"/>
+            <size android:width="2dp" android:height="2dp"/>
         </shape>
     </item>
 </selector>
