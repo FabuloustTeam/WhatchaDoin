@@ -10,6 +10,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -63,12 +67,12 @@ public class ItemActivity extends AppCompatActivity implements ItemAdapter.OnIte
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String keyWords = s.toString();
-                if(keyWords.isEmpty()) {
+                if (keyWords.isEmpty()) {
                     recyclerItem.setAdapter(itemAdapter);
                 } else {
                     ArrayList<Item> searchResults = new ArrayList<Item>();
-                    for(int i = 0; i < listItems.size(); i++) {
-                        if(listItems.get(i).getName().toLowerCase().contains(keyWords)) {
+                    for (int i = 0; i < listItems.size(); i++) {
+                        if (listItems.get(i).getName().toLowerCase().contains(keyWords)) {
                             searchResults.add(listItems.get(i));
                         }
                     }
@@ -82,6 +86,44 @@ public class ItemActivity extends AppCompatActivity implements ItemAdapter.OnIte
 
             }
         });
+
+        addItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!addNameItem.getText().toString().isEmpty()) {
+                    if (addNameItem.getText().toString().trim().isEmpty()) {
+                        Toast.makeText(context, "Please input item name", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String newItemName = addNameItem.getText().toString();
+                        Item newItem = new Item();
+                        newItem.setName(newItemName);
+                        newItem.setGrocery(Integer.parseInt(key));
+                        newItem.setDone(false);
+
+                        reference = FirebaseDatabase.getInstance().getReference("item");
+                        reference.child(String.valueOf(max)).setValue(newItem);
+
+                        addNameItem.setText("");
+                        closeKeyboard();
+                    }
+                } else {
+                    Toast.makeText(context, "Please input item name", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager manager
+                    = (InputMethodManager)
+                    getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+            manager
+                    .hideSoftInputFromWindow(
+                            view.getWindowToken(), 0);
+        }
     }
 
     private void getElementsReady() {
@@ -101,9 +143,10 @@ public class ItemActivity extends AppCompatActivity implements ItemAdapter.OnIte
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listItems.clear();
+                max = (int) snapshot.getChildrenCount();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Item itemReceived = dataSnapshot.getValue(Item.class);
-                    if(itemReceived.getGrocery() == Integer.parseInt(key)) {
+                    if (itemReceived.getGrocery() == Integer.parseInt(key)) {
                         Item itemParsed = new Item();
 
                         String id = dataSnapshot.getKey();
