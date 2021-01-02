@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.statistic.StatisticActivity">
+    tools:context=".ui.statistic.StatisticActivity"
+    android:backgroundTint="@color/background">
 
 
     <ScrollView
@@ -43,7 +44,9 @@
                 android:id="@+id/recyclerComletedTasks"
                 android:layout_width="342dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp">
+                android:layout_marginTop="12dp"
+                android:backgroundTint="@color/white"
+                >
 
             </androidx.recyclerview.widget.RecyclerView>
 
