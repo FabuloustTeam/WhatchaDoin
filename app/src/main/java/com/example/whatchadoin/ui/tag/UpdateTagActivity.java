@@ -12,10 +12,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.whatchadoin.R;
 import com.example.whatchadoin.models.Task;
 import com.example.whatchadoin.ui.home.TaskAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,13 +30,13 @@ import java.util.HashMap;
 
 public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.OnTaskListener {
     EditText tagname;
-    Button update;
+    Button update, delete;
     String key;
     ArrayList<Task> dataTask = new ArrayList<>();
     RecyclerView recyViewTask;
     Task listTasks;
     TaskAdapter taskAdapter;
-    DatabaseReference myRef, Dref;
+    DatabaseReference myRef;
     Context context;
 
     @Override
@@ -44,8 +46,8 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
         context = this;
         tagname = (EditText) findViewById(R.id.txtName);
         update = (Button) findViewById(R.id.btnUpdate);
+        delete = (Button) findViewById(R.id.btnDelete);
         recyViewTask = (RecyclerView) findViewById(R.id.recycleViewTasksByTag);
-//        recyViewTask.setLayoutManager(new LinearLayoutManager(this));
 
         Intent intent = getIntent();
         key = intent.getStringExtra("KEY");
@@ -53,8 +55,14 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
         loadTaskByTag();
 
         showTagName();
-//        Intent intent = getIntent();
-//        key = intent.getStringExtra("KEY");
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteTag();
+                finish();
+            }
+        });
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,11 +82,10 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //Dref = FirebaseDatabase.getInstance().getReference().child("task").child("tag");
                 dataTask.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Task taskReceived = snapshot.getValue(Task.class);
-                    if(taskReceived.getTag() != null) {
+                    if (taskReceived.getTag() != null) {
                         if (taskReceived.getTag().contains(Integer.parseInt(key))) {
                             dataTask.add(taskReceived);
                         }
@@ -96,11 +103,33 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
         });
     }
 
-    private void taskHasTag() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("tag");
+    private void deleteTag() {
         Intent intent = getIntent();
-        final String key = intent.getStringExtra("KEY");
+        DatabaseReference taskReference = FirebaseDatabase.getInstance().getReference("task");
+        taskReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Task tmpTask = snapshot.getValue(Task.class);
+                    if (tmpTask.getTag().contains(Integer.parseInt(key))) {
+                        String keyTag = String.valueOf(tmpTask.getTag().indexOf(Integer.parseInt(key)));
+                        taskReference.child(snapshot.getKey()).child("tag").child(keyTag).setValue(null);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        DatabaseReference tagReference = FirebaseDatabase.getInstance().getReference("tag").child(key);
+        tagReference.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(context, "Delete tag successfully", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void showTagName() {
@@ -125,7 +154,7 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
             }
         });
     }
-    
+
 
     @Override
     public void onTaskClick(int position) {

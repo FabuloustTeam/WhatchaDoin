@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatchaDoin">
-        <activity android:name=".ui.tag.testActivity"></activity>
         <activity android:name=".ui.tag.UpdateTagActivity" />
         <activity android:name=".ui.tag.AddTagActivity" />
         <activity android:name=".ui.statistic.StatisticActivity" />
