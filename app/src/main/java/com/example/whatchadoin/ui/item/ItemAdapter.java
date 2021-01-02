@@ -2,6 +2,7 @@ package com.example.whatchadoin.ui.item;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +50,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.nameItem.setText(items.get(position).getName());
         if(items.get(position).isDone()) {
             holder.nameItem.setPaintFlags(holder.nameItem.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.nameItem.setTextColor(Color.GRAY);
         }
         holder.done.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
