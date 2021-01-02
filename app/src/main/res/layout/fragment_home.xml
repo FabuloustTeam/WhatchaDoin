@@ -5,22 +5,84 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".ui.home.HomeFragment"
-    android:orientation="horizontal">
+    android:orientation="vertical"
+    tools:context=".ui.home.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_background"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".ui.home.HomeFragment">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="26dp" />
+
+        <EditText
+            android:id="@+id/etSearchTask"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/custom_input"
+            android:drawableLeft="@drawable/search"
+            android:hint="  Search"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="#CCFFFFFF">
+
+        </EditText>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@color/background"
+        android:orientation="horizontal"
+        tools:context=".ui.home.HomeFragment">
+
+        <Spinner
+            android:id="@+id/spinnerTypeTask"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <Button
+            android:id="@+id/btnAdd"
+            android:layout_width="113dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="26dp"
+            android:text="Add task"
+            android:textAllCaps="false"
+            android:layout_gravity="right"/>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTasks"
-        android:layout_height="match_parent"
         android:layout_width="wrap_content"
-        android:layout_marginTop="-60dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp">
+        android:layout_marginBottom="30dp"
+        android:gravity="center">
 
     </androidx.recyclerview.widget.RecyclerView>
 
-<!--    <ListView-->
-<!--        android:id="@+id/lvContact"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" />-->
 
 </LinearLayout>
