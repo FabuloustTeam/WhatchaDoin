@@ -2,6 +2,7 @@ package com.example.whatchadoin.ui.tag;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.widget.EditText;
 
 import com.example.whatchadoin.R;
 import com.example.whatchadoin.models.Tag;
+import com.example.whatchadoin.models.Task;
+import com.example.whatchadoin.ui.home.TaskAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,12 +22,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UpdateTagActivity extends AppCompatActivity {
     EditText tagname;
     Button update;
     String key;
+    RecyclerView recyViewTasks;
+    ArrayList<Task> listTasks;
+    TaskAdapter taskAdapter;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

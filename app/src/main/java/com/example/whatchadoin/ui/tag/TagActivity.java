@@ -35,6 +35,7 @@ public class TagActivity extends AppCompatActivity {
     ListView lvList;
     ArrayAdapter<String> adapter;
     Button add;
+    ArrayAdapter<String> adapterSearch;
     EditText inputsearch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class TagActivity extends AppCompatActivity {
         lvList.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
         add = findViewById(R.id.btnAdd);
         inputsearch=(EditText)findViewById(R.id.txtSearch);
-
+        adapterSearch = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +84,18 @@ public class TagActivity extends AppCompatActivity {
                 inputsearch.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void onTextChanged(CharSequence s, int arg1, int arg2, int arg3) {
-                        (TagActivity.this).adapter.getFilter().filter(s.toString());
+                        //(TagActivity.this).adapter.getFilter().filter(s.toString());
+                        if(s.toString().isEmpty()) {
+                            lvList.setAdapter(adapter);
+                        } else {
+                            adapterSearch.clear();
+                            for(int i = 0; i < adapter.getCount(); i++) {
+                                if(adapter.getItem(i).toLowerCase().contains(s.toString().toLowerCase())) {
+                                    adapterSearch.add(adapter.getItem(i));
+                                }
+                            }
+                            lvList.setAdapter(adapterSearch);
+                        }
                     }
 
                     @Override
