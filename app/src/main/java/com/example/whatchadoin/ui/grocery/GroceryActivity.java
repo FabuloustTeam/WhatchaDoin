@@ -1,6 +1,9 @@
 package com.example.whatchadoin.ui.grocery;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -18,13 +21,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class GroceryActivity extends AppCompatActivity {
 
-    private RecyclerView rvGroceryList;//recycler view mà đặt là txt à
-    private EditText etAdd, etSearch; //edit text đặt là et
+    private RecyclerView rvGroceryList;
+    private EditText etAdd, etSearch;
     private int maxKey;
     private ValueEventListener defaultListener;
+    private ArrayList<Grocery> dataSet;
+    private ArrayList<Integer> keys;
+    private boolean isTheFirstTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +45,19 @@ public class GroceryActivity extends AppCompatActivity {
         defaultListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ArrayList<Grocery> groceries = new ArrayList<>();
-                ArrayList<Integer> keys = new ArrayList<>();
+                dataSet = new ArrayList<>();
+                keys = new ArrayList<>();
                 maxKey = 0;
                 for (DataSnapshot data : snapshot.getChildren()) {
-                    groceries.add(data.getValue(Grocery.class));
+                    dataSet.add(data.getValue(Grocery.class));
                     int key = Integer.parseInt(data.getKey());
                     keys.add(key);
                     maxKey = key > maxKey ? key : maxKey;
                 }
-                rvGroceryList.setAdapter(new GroceryAdapter(groceries, keys));
+                if (isTheFirstTime) {
+                    search("");
+                    isTheFirstTime = false;
+                }
             }
 
             @Override
@@ -57,38 +67,21 @@ public class GroceryActivity extends AppCompatActivity {
         };
         db.getReference("grocery")
                 .addValueEventListener(defaultListener);
-        findViewById(R.id.btnSearch).setOnClickListener(v -> {
-            String textSearch = etSearch.getText().toString();
-            if (!textSearch.isEmpty()) {
-                db.getReference("grocery")
-                        .removeEventListener(defaultListener);
-                ValueEventListener temp = new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        ArrayList<Grocery> groceries = new ArrayList<>();
-                        ArrayList<Integer> keys = new ArrayList<>();
-                        for (DataSnapshot data : snapshot.getChildren()) {
-                            groceries.add(data.getValue(Grocery.class));
-                            int key = Integer.parseInt(data.getKey());
-                            keys.add(key);
-                        }
-                        rvGroceryList.setAdapter(new GroceryAdapter(groceries, keys));
-                        db.getReference("grocery")
-                                .removeEventListener(this);
-                    }
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(GroceryActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                };
-                db.getReference("grocery")
-                        .orderByChild("name")
-                        .equalTo(textSearch)
-                        .addValueEventListener(temp);
-            } else {
-                db.getReference("grocery")
-                        .addValueEventListener(defaultListener);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String textSearch = s.toString();
+                search(textSearch);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -99,7 +92,25 @@ public class GroceryActivity extends AppCompatActivity {
                 db.getReference("grocery")
                         .child(String.valueOf(maxKey + 1))
                         .setValue(item);
+                etAdd.setText("");
+                etAdd.onEditorAction(EditorInfo.IME_ACTION_DONE);
             }
         });
+    }
+
+    private void search(String textSearch) {
+        if (textSearch.isEmpty()) {
+            rvGroceryList.setAdapter(new GroceryAdapter(dataSet, keys));
+            return;
+        }
+        ArrayList<Grocery> dataInRecyclerView = new ArrayList<>();
+        ArrayList<Integer> keysInRecyclerView = new ArrayList<>();
+        for (int i = 0; i < dataSet.size(); i++) {
+            if (dataSet.get(i).getName().contains(textSearch)) {
+                dataInRecyclerView.add(dataSet.get(i));
+                keysInRecyclerView.add(keys.get(i));
+            }
+        }
+        rvGroceryList.setAdapter(new GroceryAdapter(dataInRecyclerView, keysInRecyclerView));
     }
 }

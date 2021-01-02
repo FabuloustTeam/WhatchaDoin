@@ -31,7 +31,7 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.GroceryV
     @Override
     public GroceryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final View itemView = inflater.inflate(R.layout.line_item_grocery, parent, false);
+        final View itemView = inflater.inflate(R.layout.grocery, parent, false);
         return new GroceryViewHolder(itemView);
     }
 
@@ -50,7 +50,7 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.GroceryV
                     .child(key)
                     .setValue(null)
                     .addOnSuccessListener(i -> {
-                        Toast.makeText(holder.itemView.getContext(), "Xoa thanh cong", Toast.LENGTH_LONG).show();
+                        Toast.makeText(holder.itemView.getContext(), "Delete successfully", Toast.LENGTH_LONG).show();
                     });
         });
     }
