@@ -39,7 +39,7 @@ public class ItemActivity extends AppCompatActivity implements ItemAdapter.OnIte
     DatabaseReference reference;
     ArrayList<Item> listItems = new ArrayList<Item>();
     ItemAdapter itemAdapter;
-    int max;
+    int max = 0;
     Context context;
     String key;
 
@@ -101,7 +101,7 @@ public class ItemActivity extends AppCompatActivity implements ItemAdapter.OnIte
                         newItem.setDone(false);
 
                         reference = FirebaseDatabase.getInstance().getReference("item");
-                        reference.child(String.valueOf(max)).setValue(newItem);
+                        reference.child(String.valueOf(max + 1)).setValue(newItem);
 
                         addNameItem.setText("");
                         closeKeyboard();
@@ -143,8 +143,10 @@ public class ItemActivity extends AppCompatActivity implements ItemAdapter.OnIte
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listItems.clear();
-                max = (int) snapshot.getChildrenCount();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if (max < Integer.parseInt(dataSnapshot.getKey())) {
+                        max = Integer.parseInt(dataSnapshot.getKey());
+                    }
                     Item itemReceived = dataSnapshot.getValue(Item.class);
                     if (itemReceived.getGrocery() == Integer.parseInt(key)) {
                         Item itemParsed = new Item();
