@@ -83,13 +83,13 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             public void onClick(View view) {
                 Logger.getLogger("debug000").warning(String.valueOf(listTags.size() + "After loadTags"));
 
-                if(listNameTags == null) {
+                if (listNameTags == null) {
                     listNameTags = new String[listTags.size()];
                     for (int i = 0; i < listTags.size(); i++) {
                         listNameTags[i] = listTags.get(i).getName();
                     }
                 }
-                if(checkedTags == null) {
+                if (checkedTags == null) {
                     checkedTags = new boolean[listTags.size()];
                 }
 
@@ -159,8 +159,10 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    maxId = snapshot.getChildrenCount();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if (maxId < Integer.parseInt(dataSnapshot.getKey())) {
+                        maxId = Integer.parseInt(dataSnapshot.getKey());
+                    }
                 }
             }
 
@@ -193,7 +195,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         task.setImportant(important.isChecked());
 
         ArrayList<Integer> listTagOfTask = new ArrayList<Integer>();
-        if(!selectedTags.getText().toString().isEmpty()) {
+        if (!selectedTags.getText().toString().isEmpty()) {
             String[] tags = selectedTags.getText().toString().split("#");
             for (int i = 0; i < tags.length; i++) {
                 for (int j = 0; j < listTags.size(); j++) {
@@ -207,7 +209,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         task.setTag(listTagOfTask);
 
         reference = FirebaseDatabase.getInstance().getReference().child("task");
-        reference.child(String.valueOf(maxId)).setValue(task);
+        reference.child(String.valueOf(maxId + 1)).setValue(task);
     }
 
 
