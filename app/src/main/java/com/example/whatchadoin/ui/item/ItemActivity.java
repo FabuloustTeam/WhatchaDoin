@@ -1,7 +1,6 @@
 package com.example.whatchadoin.ui.item;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -25,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ItemActivity extends AppCompatActivity implements ItemAdapter.OnItemListener {
 
@@ -54,8 +52,36 @@ public class ItemActivity extends AppCompatActivity implements ItemAdapter.OnIte
         String name = getIntent().getStringExtra("GROCERY_NAME");
         groceryName.setText(name);
 
-        init();
+        loadItems();
 
+        searchItem.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String keyWords = s.toString();
+                if(keyWords.isEmpty()) {
+                    recyclerItem.setAdapter(itemAdapter);
+                } else {
+                    ArrayList<Item> searchResults = new ArrayList<Item>();
+                    for(int i = 0; i < listItems.size(); i++) {
+                        if(listItems.get(i).getName().toLowerCase().contains(keyWords)) {
+                            searchResults.add(listItems.get(i));
+                        }
+                    }
+                    ItemAdapter searchResultAdapter = new ItemAdapter(context, searchResults, ItemActivity.this::onItemClick);
+                    recyclerItem.setAdapter(searchResultAdapter);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void getElementsReady() {
@@ -66,16 +92,7 @@ public class ItemActivity extends AppCompatActivity implements ItemAdapter.OnIte
         addItem = (ImageButton) findViewById(R.id.btnAddItem);
     }
 
-//    @Override
-//    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
-//        this.v = view;
-//        init();
-//
-//    }
-
-
-    public void init() {
+    public void loadItems() {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerItem.setLayoutManager(layoutManager);
 
