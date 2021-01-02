@@ -39,12 +39,12 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.GroceryV
     public void onBindViewHolder(@NonNull GroceryViewHolder holder, int position) {
         holder.tvName.setText(dataSet.get(position).getName());
         String key = String.valueOf(keys.get(position));
-        holder.itemView.setOnClickListener(v -> {
+        holder.btnEdit.setOnClickListener(v -> {
             Intent intent = new Intent(holder.itemView.getContext(), EditGroceryActivity.class);
             intent.putExtra("GROCERY_KEY", key).putExtra("GROCERY_NAME", dataSet.get(position).getName());
             holder.itemView.getContext().startActivity(intent);
         });
-        holder.btnXoa.setOnClickListener(v -> {
+        holder.btnDelete.setOnClickListener(v -> {
             FirebaseDatabase db = FirebaseDatabase.getInstance();
             db.getReference("grocery")
                     .child(key)
@@ -63,12 +63,13 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.GroceryV
     class GroceryViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvName;
-        private Button btnXoa;
+        private Button btnDelete, btnEdit;
 
         public GroceryViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.line_item_grocery_name);
-            btnXoa = itemView.findViewById(R.id.line_item_grocery_btnXoa);
+            btnDelete = itemView.findViewById(R.id.line_item_grocery_btnDelete);
+            btnEdit = itemView.findViewById(R.id.line_item_grocery_btnEdit);
         }
     }
 
