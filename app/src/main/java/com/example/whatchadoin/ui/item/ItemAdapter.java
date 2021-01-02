@@ -1,6 +1,7 @@
 package com.example.whatchadoin.ui.item;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                 } else {
                     reference.child(id).child("done").setValue(false);
                 }
+            }
+        });
+
+        holder.renameItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentUpdateItem = new Intent(holder.itemView.getContext(), ItemUpdateActivity.class);
+                intentUpdateItem.putExtra("KEY", items.get(position).getId());
+                holder.itemView.getContext().startActivity(intentUpdateItem);
             }
         });
 
