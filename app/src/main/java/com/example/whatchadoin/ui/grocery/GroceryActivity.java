@@ -18,7 +18,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 public class GroceryActivity extends AppCompatActivity {
 
@@ -33,8 +32,8 @@ public class GroceryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_grocery);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         rvGroceryList = findViewById(R.id.rvGroceryList);
-        etAdd = findViewById(R.id.edtAdd);
-        etSearch = findViewById(R.id.edtSearch);
+        etAdd = findViewById(R.id.etAdd);
+        etSearch = findViewById(R.id.etSearch);
         rvGroceryList.setLayoutManager(new LinearLayoutManager(this));
         defaultListener = new ValueEventListener() {
             @Override
