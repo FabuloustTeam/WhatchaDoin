@@ -10,15 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatchaDoin">
 
+
         <activity android:name=".ui.task.UpdateTaskActivity"></activity>
         <activity android:name=".ui.statistic.StatisticActivity" />
         <activity android:name=".ui.task.AddTaskActivity" />
-
         <activity android:name=".ui.tag.UpdateTagActivity" />
         <activity android:name=".ui.tag.AddTagActivity" />
-
         <activity android:name=".ui.grocery.GroceryActivity" />
         <activity android:name=".ui.tag.TagActivity" />
+        <activity android:name=".ui.grocery.EditGroceryActivity" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
