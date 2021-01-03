@@ -12,7 +12,6 @@
         android:background="@drawable/gradient_background"
         android:gravity="center"
         android:orientation="vertical"
-        tools:context=".ui.home.HomeFragment"
         android:id="@+id/headerUpdateTag"
         android:layout_alignParentTop="true">
 

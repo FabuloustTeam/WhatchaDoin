@@ -13,8 +13,8 @@
         android:background="@drawable/gradient_background"
         android:gravity="center"
         android:orientation="vertical"
-        tools:context=".ui.home.HomeFragment"
-        android:id="@+id/headerTag">
+        android:id="@+id/headerTag"
+        android:layout_alignParentTop="true">
 
         <TextView
             android:layout_width="wrap_content"
