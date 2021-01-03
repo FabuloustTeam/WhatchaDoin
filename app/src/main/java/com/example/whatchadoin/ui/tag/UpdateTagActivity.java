@@ -34,7 +34,6 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
     String key;
     ArrayList<Task> dataTask = new ArrayList<>();
     RecyclerView recyViewTask;
-    Task listTasks;
     TaskAdapter taskAdapter;
     DatabaseReference myRef;
     Context context;

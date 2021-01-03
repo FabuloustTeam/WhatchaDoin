@@ -30,10 +30,10 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvTitleAddGrocery"
+        android:id="@+id/tvTitleEditGrocery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add grocery"
+        android:text="Edit grocery"
         android:layout_below="@+id/headerAddGrocery"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
@@ -50,13 +50,13 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:layout_below="@+id/tvTitleAddGrocery"/>
+        android:layout_below="@+id/tvTitleEditGrocery"/>
 
     <Button
         android:id="@+id/btnSaveGrocery"
         android:layout_width="195dp"
         android:layout_height="69dp"
-        android:text="Add grocery"
+        android:text="Edit grocery"
         android:textSize="18sp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"

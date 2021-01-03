@@ -1,6 +1,8 @@
-package com.example.whatchadoin.ui.item;
+package com.example.whatchadoin.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -18,9 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.whatchadoin.R;
 import com.example.whatchadoin.models.Item;
+import com.example.whatchadoin.ui.item.ItemUpdateActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -77,13 +83,29 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
         holder.deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("item");
-                reference.child(items.get(position).getId()).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(context, "Delete item successfully", Toast.LENGTH_LONG).show();
-                    }
-                });
+                AlertDialog myQuittingDialogBox = new AlertDialog.Builder(context)
+                        .setTitle("Delete")
+                        .setMessage("Do you want to delete this grocery?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("item");
+                                reference.child(items.get(position).getId()).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(context, "Delete item successfully", Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+
+                myQuittingDialogBox.show();
             }
         });
     }

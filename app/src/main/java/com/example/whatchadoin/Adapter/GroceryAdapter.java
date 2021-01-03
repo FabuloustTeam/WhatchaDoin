@@ -18,10 +18,10 @@ import com.example.whatchadoin.R;
 import com.example.whatchadoin.models.Grocery;
 import com.example.whatchadoin.models.Item;
 import com.example.whatchadoin.ui.grocery.EditGroceryActivity;
+import com.example.whatchadoin.ui.item.ItemActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.example.whatchadoin.ui.item.ItemActivity;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -55,6 +55,13 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.GroceryV
             intent.putExtra("GROCERY_KEY", key).putExtra("GROCERY_NAME", dataSet.get(position).getName());
             holder.itemView.getContext().startActivity(intent);
         });
+
+        holder.btnEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), EditGroceryActivity.class);
+            intent.putExtra("GROCERY_KEY", key).putExtra("GROCERY_NAME", dataSet.get(position).getName());
+            holder.itemView.getContext().startActivity(intent);
+        });
+
         holder.btnDelete.setOnClickListener(v -> {
             AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this.context)
                     .setTitle("Delete")
@@ -101,7 +108,7 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.GroceryV
         return dataSet.size();
     }
 
-    class GroceryViewHolder extends RecyclerView.ViewHolder {
+    public class GroceryViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tvName;
         private Button btnDelete, btnEdit;
