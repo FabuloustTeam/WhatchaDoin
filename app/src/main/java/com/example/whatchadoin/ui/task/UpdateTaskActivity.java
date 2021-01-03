@@ -215,12 +215,8 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
 
     private AlertDialog AskOption()
     {
-        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
-                .setTitle("Delete")
-                .setMessage("Do you want to delete this task?")
-
+        AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this).setTitle("Delete").setMessage("Do you want to delete this task?")
                 .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-
                     public void onClick(DialogInterface dialog, int whichButton) {
                         referenceTask = FirebaseDatabase.getInstance().getReference().child("task");
                         referenceTask.child(String.valueOf(taskParsed.getId())).setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {

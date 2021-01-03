@@ -31,7 +31,7 @@ public class AddTagActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_tag);
         getSupportActionBar().hide();
         mtag = (EditText) findViewById(R.id.txtTagNameAdd);
-        add = (Button) findViewById(R.id.btnAdd);
+        add = (Button) findViewById(R.id.btnAddGrocery);
         tag = new Tag();
         myRef = FirebaseDatabase.getInstance().getReference().child("tag");
         myRef.addValueEventListener(new ValueEventListener() {

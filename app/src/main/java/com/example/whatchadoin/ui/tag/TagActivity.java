@@ -39,7 +39,7 @@ public class TagActivity extends AppCompatActivity {
         lvList = findViewById(R.id.lvListTag);
         lvList.setAdapter(adapter);
         lvList.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
-        add = findViewById(R.id.btnAdd);
+        add = findViewById(R.id.btnAddGrocery);
         inputsearch=(EditText)findViewById(R.id.txtSearch);
         adapterSearch = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         add.setOnClickListener(new View.OnClickListener() {

@@ -36,11 +36,12 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/custom_input"
             android:drawableLeft="@drawable/search"
-            android:editable="false"
             android:hint="  Search"
-            android:padding="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:textColor="@color/white"
-            android:textColorHint="#CCFFFFFF">
+            android:textColorHint="#CCFFFFFF"
+            android:paddingLeft="20dp">
 
         </EditText>
 

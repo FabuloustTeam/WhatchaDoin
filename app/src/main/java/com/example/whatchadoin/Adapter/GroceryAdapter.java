@@ -1,5 +1,8 @@
-package com.example.whatchadoin.Adapter;
+package com.example.whatchadoin.adapter;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +24,12 @@ import java.util.ArrayList;
 public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.GroceryViewHolder> {
     private ArrayList<Grocery> dataSet;
     private ArrayList<Integer> keys;
+    private Context context;
 
-    public GroceryAdapter(ArrayList<Grocery> dataSet, ArrayList<Integer> keys) {
+    public GroceryAdapter(ArrayList<Grocery> dataSet, ArrayList<Integer> keys, Context context) {
         this.dataSet = dataSet;
         this.keys = keys;
+        this.context = context;
     }
 
     @NonNull
@@ -45,13 +50,26 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.GroceryV
             holder.itemView.getContext().startActivity(intent);
         });
         holder.btnDelete.setOnClickListener(v -> {
-            FirebaseDatabase db = FirebaseDatabase.getInstance();
-            db.getReference("grocery")
-                    .child(key)
-                    .setValue(null)
-                    .addOnSuccessListener(i -> {
-                        Toast.makeText(holder.itemView.getContext(), "Delete successfully", Toast.LENGTH_LONG).show();
-                    });
+            AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this.context)
+                    .setTitle("Delete")
+                    .setMessage("Do you want to delete this grocery?")
+                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            FirebaseDatabase db = FirebaseDatabase.getInstance();
+                            db.getReference("grocery").child(key).setValue(null).addOnSuccessListener(i -> {
+                                Toast.makeText(holder.itemView.getContext(), "Delete grocery successfully", Toast.LENGTH_LONG).show();
+                            });
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create();
+
+            myQuittingDialogBox.show();
         });
     }
 
@@ -67,9 +85,9 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.GroceryV
 
         public GroceryViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvName = itemView.findViewById(R.id.line_item_grocery_name);
-            btnDelete = itemView.findViewById(R.id.line_item_grocery_btnDelete);
-            btnEdit = itemView.findViewById(R.id.line_item_grocery_btnEdit);
+            tvName = itemView.findViewById(R.id.tvGroceryName);
+            btnDelete = itemView.findViewById(R.id.btnDeleteGrocery);
+            btnEdit = itemView.findViewById(R.id.btnEditGrocery);
         }
     }
 

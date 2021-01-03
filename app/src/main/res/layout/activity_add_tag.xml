@@ -7,14 +7,14 @@
     tools:context=".ui.tag.AddTagActivity">
 
     <LinearLayout
+        android:id="@+id/headerAddTag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:background="@drawable/gradient_background"
         android:gravity="center"
         android:orientation="vertical"
-        tools:context=".ui.home.HomeFragment"
-        android:id="@+id/headerAddTag"
-        android:layout_alignParentTop="true">
+        tools:context=".ui.home.HomeFragment">
 
         <TextView
             android:layout_width="wrap_content"
@@ -22,11 +22,10 @@
             android:layout_gravity="left"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:text="@string/app_name"
             android:textColor="@color/white"
-            android:textSize="26dp"
-            android:layout_marginBottom="20dp"/>
-
+            android:textSize="26dp" />
 
     </LinearLayout>
 
@@ -34,32 +33,32 @@
         android:id="@+id/tvTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add tag"
-        android:textSize="18sp"
-        android:layout_marginTop="30dp"
         android:layout_below="@+id/headerAddTag"
-        android:layout_marginLeft="20dp"/>
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:text="Add tag"
+        android:textSize="18sp" />
 
 
     <EditText
         android:id="@+id/txtTagNameAdd"
         android:layout_width="368dp"
         android:layout_height="43dp"
-        android:ems="10"
-        android:inputType="textPersonName"
         android:layout_below="@+id/tvTag"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:ems="10"
+        android:inputType="textPersonName" />
 
     <Button
-        android:id="@+id/btnAdd"
+        android:id="@+id/btnAddGrocery"
         android:layout_width="232dp"
         android:layout_height="61dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
         android:text="Add tag"
         android:textSize="24sp"
-        app:backgroundTint="?android:attr/textColorLink"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"/>
+        app:backgroundTint="?android:attr/textColorLink" />
 </RelativeLayout>

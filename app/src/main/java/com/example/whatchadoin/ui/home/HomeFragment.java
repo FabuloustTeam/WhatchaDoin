@@ -62,7 +62,7 @@ public class HomeFragment extends Fragment implements TaskAdapter.OnTaskListener
 
         ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
 
-        add = (Button) root.findViewById(R.id.btnAdd);
+        add = (Button) root.findViewById(R.id.btnAddGrocery);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

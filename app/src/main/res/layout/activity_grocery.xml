@@ -1,88 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.grocery.GroceryActivity"
-    android:background="@color/background">
-
-    <TextView
-        android:id="@+id/txtName"
-        android:layout_width="141dp"
-        android:layout_height="36dp"
-        android:fontFamily="sans-serif-smallcaps"
-        android:text="Grocery List"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/rvGroceryList"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.459" />
+    android:background="@color/background"
+    tools:context=".ui.grocery.GroceryActivity">
 
     <LinearLayout
-        android:id="@+id/bottomContainer"
+        android:id="@+id/headerGrocery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rvGroceryList"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
-        <EditText
-            android:id="@+id/etAdd"
-            android:layout_width="320dp"
-            android:layout_height="48dp"
-            android:ems="10"
-            android:hint="Add a grocery item...."
-            android:inputType="textPersonName" />
+        android:layout_alignParentTop="true"
+        android:background="@drawable/gradient_background"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".ui.home.HomeFragment">
 
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_width="77dp"
-            android:layout_height="52dp"
-            android:background="#03A9F4"
-            android:text="add"
-            android:textColor="#FFFFFF" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="26dp" />
+
+        <EditText
+            android:id="@+id/etSearchGrocery"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/custom_input"
+            android:drawableLeft="@drawable/search"
+            android:hint="  Search"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="#CCFFFFFF">
+
+        </EditText>
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvTitleGrocery"
+        android:layout_width="141dp"
+        android:layout_height="36dp"
+        android:layout_below="@+id/headerGrocery"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Grocery List"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvGroceryList"
-        android:layout_width="408dp"
-        android:layout_height="407dp"
-        app:layout_constraintBottom_toBottomOf="@id/bottomContainer"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/container"
-        app:layout_constraintVertical_bias="0.608"
-        android:layout_marginTop="10dp" />
-
-    <LinearLayout
-        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/txtName"
-        app:layout_constraintBottom_toTopOf="@id/rvGroceryList"
-        android:layout_marginTop="45dp"
-        android:orientation="horizontal"
-        android:layoutDirection="rtl">
-        <Button
-            android:id="@+id/btnSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="#FF0C0C"
-            android:text="search"
-            android:textColor="#FFFFFF"/>
+        android:layout_below="@+id/tvTitleGrocery"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/containerAddGrocery" />
 
-        <EditText
-            android:id="@+id/etSearch"
+    <LinearLayout
+        android:id="@+id/containerAddGrocery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/background"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/rvGroceryList">
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="search..."
-            android:inputType="textPersonName" />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etAddGrocery"
+                android:layout_width="270dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/background_add_text_view"
+                android:ems="10"
+                android:hint="Add a grocery...."
+                android:inputType="textPersonName"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" />
+
+            <Button
+                android:id="@+id/btnAddGrocery"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/background_add_button"
+                android:text="add"
+                android:textColor="#FFFFFF" />
+        </RelativeLayout>
+
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</RelativeLayout>
