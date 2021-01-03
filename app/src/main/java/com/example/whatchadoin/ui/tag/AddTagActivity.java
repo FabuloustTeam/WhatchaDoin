@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.whatchadoin.R;
 import com.example.whatchadoin.models.Tag;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,20 +23,24 @@ public class AddTagActivity extends AppCompatActivity {
     Button add;
     DatabaseReference myRef;
     Tag tag;
-    int maxid=0;
+    int maxid = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_tag);
-        mtag = (EditText)findViewById(R.id.txtTagname);
-        add = (Button)findViewById(R.id.btnAdd);
+        mtag = (EditText) findViewById(R.id.txtTagname);
+        add = (Button) findViewById(R.id.btnAdd);
         tag = new Tag();
-        myRef= FirebaseDatabase.getInstance().getReference().child("tag");
+        myRef = FirebaseDatabase.getInstance().getReference().child("tag");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists())
-                    maxid= (int) dataSnapshot.getChildrenCount();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (maxid < Integer.parseInt(snapshot.getKey())) {
+                        maxid = Integer.parseInt(snapshot.getKey());
+                    }
+                }
             }
 
             @Override
@@ -47,9 +52,14 @@ public class AddTagActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 tag.setName(mtag.getText().toString().trim());
-                myRef.child(String.valueOf(maxid+1)).setValue(tag);
+                myRef.child(String.valueOf(maxid + 1)).setValue(tag).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        finish();
+                        Toast.makeText(AddTagActivity.this, "Tag added succesfully", Toast.LENGTH_LONG).show();
+                    }
+                });
 
-                Toast.makeText(AddTagActivity.this, "Data inserted succesfully", Toast.LENGTH_LONG).show();
             }
         });
     }

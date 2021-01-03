@@ -15,8 +15,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.whatchadoin.R;
+import com.example.whatchadoin.adapter.TaskAdapter;
 import com.example.whatchadoin.models.Task;
-import com.example.whatchadoin.ui.home.TaskAdapter;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -71,8 +71,13 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
 
                 String Id = key;
                 String sname = tagname.getText().toString();
-                myRef.child(Id).child("name").setValue(sname);
-                finish();
+                myRef.child(Id).child("name").setValue(sname).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(context, "Update tag successfully", Toast.LENGTH_LONG).show();
+                        finish();
+                    }
+                });
             }
         });
     }
@@ -152,13 +157,13 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
                     HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
                     tagname.setText(hashMap.get("name").toString());
                 } catch (Exception e) {
-                    Log.e("LOI_JSON", e.toString());
+                    Log.e("Json error", e.toString());
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w("LOI_CHITIET", "loadPost:onCancelled", databaseError.toException());
+                Log.w("detail error", "loadPost:onCancelled", databaseError.toException());
             }
         });
     }
