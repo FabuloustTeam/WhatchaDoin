@@ -9,9 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.WhatchaDoin">
+
         <activity android:name=".ui.task.UpdateTaskActivity"></activity>
         <activity android:name=".ui.statistic.StatisticActivity" />
         <activity android:name=".ui.task.AddTaskActivity" />
+
+        <activity android:name=".ui.tag.UpdateTagActivity" />
+        <activity android:name=".ui.tag.AddTagActivity" />
+
         <activity android:name=".ui.grocery.GroceryActivity" />
         <activity android:name=".ui.tag.TagActivity" />
         <activity
@@ -23,6 +28,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
