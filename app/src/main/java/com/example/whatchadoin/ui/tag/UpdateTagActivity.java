@@ -44,9 +44,9 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_tag);
         context = this;
-        tagname = (EditText) findViewById(R.id.txtName);
-        update = (Button) findViewById(R.id.btnUpdate);
-        delete = (Button) findViewById(R.id.btnDelete);
+        tagname = (EditText) findViewById(R.id.etTagNameUpdate);
+        update = (Button) findViewById(R.id.btnUpdateTag);
+        delete = (Button) findViewById(R.id.btnDeleteTag);
         recyViewTask = (RecyclerView) findViewById(R.id.recycleViewTasksByTag);
 
         Intent intent = getIntent();

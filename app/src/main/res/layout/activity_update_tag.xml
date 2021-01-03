@@ -1,38 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.tag.UpdateTagActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_background"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".ui.home.HomeFragment"
+        android:id="@+id/headerUpdateTag"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="26dp"
+            android:layout_marginBottom="20dp"/>
+
+
+    </LinearLayout>
+
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update Tag"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.079"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.117" />
+        android:layout_below="@+id/headerUpdateTag"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"/>
 
     <EditText
-        android:id="@+id/txtName"
-        android:layout_width="349dp"
-        android:layout_height="46dp"
+        android:id="@+id/etTagNameUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.435"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.167" />
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleViewTasksByTag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etTagNameUpdate"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
 
     <Button
-        android:id="@+id/btnUpdate"
+        android:id="@+id/btnUpdateTag"
         android:layout_width="167dp"
         android:layout_height="70dp"
         android:text="Update Tag"
@@ -41,26 +71,14 @@
         app:backgroundTint="?android:attr/textColorLink"
         app:icon="@android:drawable/ic_menu_save"
         app:iconTint="@color/colorPrimaryDark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.118"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.851" />
+        android:layout_below="@+id/recycleViewTasksByTag"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="25dp"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycleViewTasksByTag"
-        android:layout_width="352dp"
-        android:layout_height="264dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498" />
 
     <Button
-        android:id="@+id/btnDelete"
+        android:id="@+id/btnDeleteTag"
         android:layout_width="167dp"
         android:layout_height="70dp"
         android:fontFamily="sans-serif-medium"
@@ -70,12 +88,10 @@
         app:backgroundTint="@android:color/holo_red_dark"
         app:icon="@android:drawable/ic_menu_delete"
         app:iconTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.877"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.851" />
+        android:layout_below="@id/recycleViewTasksByTag"
+        android:layout_marginTop="20dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"/>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

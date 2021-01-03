@@ -1,32 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.tag.TagActivity">
+    tools:context=".ui.tag.TagActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_background"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".ui.home.HomeFragment"
+        android:id="@+id/headerTag">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="26dp" />
+
+        <EditText
+            android:id="@+id/txtSearch"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/custom_input"
+            android:drawableLeft="@drawable/search"
+            android:hint="  Search"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="#CCFFFFFF">
+
+        </EditText>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="32dp"
         android:layout_height="20dp"
         android:text="Tag"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.079"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.309" />
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/headerTag"/>
 
     <ListView
         android:id="@+id/lvListTag"
-        android:layout_width="257dp"
-        android:layout_height="347dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.669" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/textView"/>
 
     <Button
         android:id="@+id/btnAdd"
@@ -41,27 +76,9 @@
         android:textSize="24sp"
         android:typeface="normal"
         app:backgroundTint="@color/round_gradient_button_start_color"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"/>
 
-    <EditText
-        android:id="@+id/txtSearch"
-        android:layout_width="349dp"
-        android:layout_height="53dp"
-        android:ems="10"
-        android:hint="Search"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.483"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.135" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
