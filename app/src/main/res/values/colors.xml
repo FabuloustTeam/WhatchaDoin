@@ -19,4 +19,6 @@
     <color name="round_gradient_button_end_color">#77A1D3 </color>
     <color name="important">#FFDC00</color>
     <color name="notimportant">#D9D9D9</color>
+    <color name="title">#8B87B3</color>
+    <color name="input">#373737</color>
 </resources>

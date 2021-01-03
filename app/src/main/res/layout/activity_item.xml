@@ -8,39 +8,47 @@
     android:orientation="vertical"
     tools:context=".ui.grocery.GroceryActivity">
 
-
     <LinearLayout
-        android:id="@+id/searchContainer"
+        android:id="@+id/headerGrocery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:layoutDirection="rtl"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="0dp">
+        android:layout_alignParentTop="true"
+        android:background="@drawable/gradient_background"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".ui.home.HomeFragment">
 
-        <ImageButton
-            android:id="@+id/btnSearch"
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:adjustViewBounds="false"
-            android:background="#00FFFFFF"
-            android:cropToPadding="false"
-            android:scaleType="centerInside" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/app_name"
+            android:textColor="@color/white"
+            android:textSize="26dp"/>
 
         <EditText
             android:id="@+id/etSearchItem"
-            android:layout_width="293dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="Search"
-            android:inputType="textPersonName"
-            app:srcCompat="@drawable/searchitem"/>
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/custom_input"
+            android:drawableLeft="@drawable/search"
+            android:hint="  Search"
+            android:paddingLeft="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="#CCFFFFFF">
+
+        </EditText>
+
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -54,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Grocery"
-            android:textSize="18dp" />
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/tvGroceryName"
@@ -62,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Grocery name"
-            android:textSize="14dp" />
+            android:textSize="18dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -78,10 +86,14 @@
         <EditText
             android:id="@+id/etAddNameItem"
             android:layout_width="320dp"
-            android:layout_height="48dp"
+            android:layout_height="50dp"
             android:ems="10"
             android:hint="Add a grocery item..."
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:background="@drawable/background_add_text_view"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:fontFamily="@font/dubai_regular"/>
 
         <ImageButton
             android:id="@+id/btnAddItem"
@@ -92,15 +104,17 @@
             android:background="#00FFFFFF"
             android:cropToPadding="false"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/arrowadditem" />
+            app:srcCompat="@drawable/delete" />
+
+
+
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvListItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        tools:layout_editor_absoluteY="138dp" />
+        android:layout_margin="30dp" />
 
 
 </LinearLayout>
