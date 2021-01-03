@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -61,15 +63,33 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteTag();
-                finish();
+                AlertDialog myQuittingDialogBox = new AlertDialog.Builder(context).setTitle("Delete").setMessage("Do you want to delete this task?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                deleteTag();
+                                finish();
+                                dialog.dismiss();
+                            }
+
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                dialog.dismiss();
+
+                            }
+                        })
+                        .create();
+
+                myQuittingDialogBox.show();
+
             }
         });
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!tagName.getText().toString().isEmpty()) {
-                    if(!tagName.getText().toString().trim().isEmpty()) {
+                if (!tagName.getText().toString().isEmpty()) {
+                    if (!tagName.getText().toString().trim().isEmpty()) {
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference myRef = database.getReference("tag");
 

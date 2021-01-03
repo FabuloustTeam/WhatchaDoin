@@ -14,7 +14,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class EditGroceryActivity extends AppCompatActivity {
 
-    private EditText edtEditGrocery;
+    private EditText editGrocery;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,15 +26,23 @@ public class EditGroceryActivity extends AppCompatActivity {
 
         String key = getIntent().getStringExtra("GROCERY_KEY");
         String name = getIntent().getStringExtra("GROCERY_NAME");
-        edtEditGrocery = findViewById(R.id.etEditGrocery);
-        edtEditGrocery.setText(name);
+        editGrocery = findViewById(R.id.etEditGrocery);
+        editGrocery.setText(name);
         findViewById(R.id.btnSaveGrocery).setOnClickListener(v -> {
-            String newName = edtEditGrocery.getText().toString();
-            FirebaseDatabase db = FirebaseDatabase.getInstance();
-            db.getReference("grocery").child(key).setValue(new Grocery(newName)).addOnSuccessListener(i -> {
-                Toast.makeText(context, "Edit grocery successfully", Toast.LENGTH_LONG).show();
-                finish();
-            });
+            if(editGrocery.getText().toString().isEmpty()) {
+                if(editGrocery.getText().toString().trim().isEmpty()) {
+                    String newName = editGrocery.getText().toString();
+                    FirebaseDatabase db = FirebaseDatabase.getInstance();
+                    db.getReference("grocery").child(key).setValue(new Grocery(newName)).addOnSuccessListener(i -> {
+                        Toast.makeText(context, "Edit grocery successfully", Toast.LENGTH_LONG).show();
+                        finish();
+                    });
+                } else {
+                    Toast.makeText(context, "Please input grocery name", Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(context, "Please input grocery name", Toast.LENGTH_LONG).show();
+            }
         });
     }
 }
