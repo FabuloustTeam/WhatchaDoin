@@ -54,7 +54,7 @@
 
     <Button
         android:id="@+id/btnSaveGrocery"
-        android:text="Edit grocery"
+        android:text="Save"
         android:layout_centerHorizontal="true"
         android:textAllCaps="false"
         android:layout_width="match_parent"

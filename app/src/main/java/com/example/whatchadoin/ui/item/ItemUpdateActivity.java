@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -72,6 +73,7 @@ public class ItemUpdateActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(context, "Update item successfully", Toast.LENGTH_LONG).show();
+                                updateItem.onEditorAction(EditorInfo.IME_ACTION_DONE);
                                 finish();
                             }
                         });
