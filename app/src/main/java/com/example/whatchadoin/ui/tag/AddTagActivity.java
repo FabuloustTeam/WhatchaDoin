@@ -3,6 +3,7 @@ package com.example.whatchadoin.ui.tag;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,12 +25,14 @@ public class AddTagActivity extends AppCompatActivity {
     DatabaseReference myRef;
     Tag tag;
     int maxid = 0;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_tag);
         getSupportActionBar().hide();
+        context = this;
         mtag = (EditText) findViewById(R.id.txtTagNameAdd);
         add = (Button) findViewById(R.id.btnAddGrocery);
         tag = new Tag();
@@ -52,15 +55,22 @@ public class AddTagActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tag.setName(mtag.getText().toString().trim());
-                myRef.child(String.valueOf(maxid + 1)).setValue(tag).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        finish();
-                        Toast.makeText(AddTagActivity.this, "Tag added succesfully", Toast.LENGTH_LONG).show();
+                if(!mtag.getText().toString().isEmpty()) {
+                    if(!mtag.getText().toString().trim().isEmpty()) {
+                        tag.setName(mtag.getText().toString().trim());
+                        myRef.child(String.valueOf(maxid + 1)).setValue(tag).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                finish();
+                                Toast.makeText(AddTagActivity.this, "Tag added succesfully", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(context, "Please input tag name", Toast.LENGTH_LONG).show();
                     }
-                });
-
+                } else {
+                    Toast.makeText(context, "Please input tag name", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
