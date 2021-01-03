@@ -42,23 +42,30 @@
 
     <EditText
         android:id="@+id/txtTagNameAdd"
-        android:layout_width="368dp"
-        android:layout_height="43dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/tvTag"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
         android:ems="10"
         android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/btnAddGrocery"
-        android:layout_width="232dp"
-        android:layout_height="61dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
         android:text="Add tag"
-        android:textSize="24sp"
-        app:backgroundTint="?android:attr/textColorLink" />
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        android:background="@drawable/button_gradient_background" />
 </RelativeLayout>

@@ -36,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Update Tag"
+        android:textSize="20dp"
         android:layout_below="@+id/headerUpdateTag"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"/>
@@ -67,14 +68,15 @@
         android:layout_height="70dp"
         android:text="Update Tag"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:backgroundTint="?android:attr/textColorLink"
         app:icon="@android:drawable/ic_menu_save"
         app:iconTint="@color/colorPrimaryDark"
         android:layout_below="@+id/recycleViewTasksByTag"
         android:layout_marginTop="20dp"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="25dp"/>
+        android:layout_marginLeft="25dp"
+        android:textAllCaps="false"/>
 
 
     <Button
@@ -84,14 +86,15 @@
         android:fontFamily="sans-serif-medium"
         android:text="Delete Tag"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:backgroundTint="@android:color/holo_red_dark"
         app:icon="@android:drawable/ic_menu_delete"
         app:iconTint="@color/white"
         android:layout_below="@id/recycleViewTasksByTag"
         android:layout_marginTop="20dp"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="25dp"/>
+        android:layout_marginRight="25dp"
+        android:textAllCaps="false"/>
 
 
 </RelativeLayout>

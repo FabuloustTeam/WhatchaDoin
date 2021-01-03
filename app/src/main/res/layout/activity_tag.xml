@@ -49,11 +49,12 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="32dp"
-        android:layout_height="20dp"
         android:text="Tag"
+        android:textSize="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/headerTag"/>
 
     <ListView
@@ -70,7 +71,6 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/button_round"
-        android:fontFamily="sans-serif-medium"
         android:padding="6dp"
         android:text="+"
         android:textAlignment="center"
