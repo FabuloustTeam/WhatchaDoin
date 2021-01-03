@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".ui.grocery.GroceryActivity">
+
+
+    <LinearLayout
+        android:id="@+id/searchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layoutDirection="rtl"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <ImageButton
+            android:id="@+id/btnSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:adjustViewBounds="false"
+            android:background="#00FFFFFF"
+            android:cropToPadding="false"
+            android:scaleType="centerInside" />
+
+        <EditText
+            android:id="@+id/etSearchItem"
+            android:layout_width="293dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Search"
+            android:inputType="textPersonName"
+            app:srcCompat="@drawable/searchitem"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Grocery"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/tvGroceryName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Grocery name"
+            android:textSize="14dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/addItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="UnknownId">
+
+        <EditText
+            android:id="@+id/etAddNameItem"
+            android:layout_width="320dp"
+            android:layout_height="48dp"
+            android:ems="10"
+            android:hint="Add a grocery item..."
+            android:inputType="textPersonName" />
+
+        <ImageButton
+            android:id="@+id/btnAddItem"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:adjustViewBounds="false"
+            android:background="#00FFFFFF"
+            android:cropToPadding="false"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/arrowadditem" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvListItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        tools:layout_editor_absoluteY="138dp" />
+
+
+</LinearLayout>

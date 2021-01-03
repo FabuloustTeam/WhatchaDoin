@@ -12,6 +12,8 @@
 
 
         <activity android:name=".ui.task.UpdateTaskActivity"></activity>
+        <activity android:name=".ui.item.ItemUpdateActivity"></activity>
+        <activity android:name=".ui.item.ItemActivity" />
         <activity android:name=".ui.statistic.StatisticActivity" />
         <activity android:name=".ui.task.AddTaskActivity" />
         <activity android:name=".ui.tag.UpdateTagActivity" />

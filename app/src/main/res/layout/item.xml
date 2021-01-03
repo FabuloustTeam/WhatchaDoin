@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_marginBottom="20dp"
+    android:background="@drawable/backgroundtask"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/chkDone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:checked="false"
+            android:clickable="true">
+
+        </com.google.android.material.checkbox.MaterialCheckBox>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:id="@+id/tvNameItem"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="left"
+            android:text="name item"
+            android:textColor="@color/textTaskName"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp">
+
+        <Button
+            android:id="@+id/btnRenameItem"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Rename"
+            android:textAlignment="viewEnd"
+            android:textAllCaps="false"
+            android:textColor="#4F5053"
+            android:textSize="14sp"
+            app:backgroundTint="#08FFFFFF" />
+
+        <Button
+            android:id="@+id/btnDeleteItem"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Delete"
+            android:textAlignment="viewStart"
+            android:textAllCaps="false"
+            android:textColor="#4F5053"
+            android:textSize="14sp"
+            app:backgroundTint="#08FFFFFF" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

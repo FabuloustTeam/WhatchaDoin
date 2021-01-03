@@ -21,6 +21,7 @@ import com.example.whatchadoin.ui.grocery.EditGroceryActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.example.whatchadoin.ui.item.ItemActivity;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -49,8 +50,8 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.GroceryV
     public void onBindViewHolder(@NonNull GroceryViewHolder holder, int position) {
         holder.tvName.setText(dataSet.get(position).getName());
         String key = String.valueOf(keys.get(position));
-        holder.btnEdit.setOnClickListener(v -> {
-            Intent intent = new Intent(holder.itemView.getContext(), EditGroceryActivity.class);
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext(), ItemActivity.class);
             intent.putExtra("GROCERY_KEY", key).putExtra("GROCERY_NAME", dataSet.get(position).getName());
             holder.itemView.getContext().startActivity(intent);
         });
