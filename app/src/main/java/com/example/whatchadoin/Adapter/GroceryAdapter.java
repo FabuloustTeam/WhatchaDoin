@@ -16,8 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.whatchadoin.R;
 import com.example.whatchadoin.models.Grocery;
+import com.example.whatchadoin.models.Item;
 import com.example.whatchadoin.ui.grocery.EditGroceryActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -56,6 +61,23 @@ public class GroceryAdapter extends RecyclerView.Adapter<GroceryAdapter.GroceryV
                     .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             FirebaseDatabase db = FirebaseDatabase.getInstance();
+                            db.getReference("item").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    DatabaseReference itemReference = db.getReference("item");
+                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                        Item tmpItem = dataSnapshot.getValue(Item.class);
+                                        if(tmpItem.getGrocery() == Integer.parseInt(key)) {
+                                            itemReference.child(dataSnapshot.getKey()).setValue(null);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
                             db.getReference("grocery").child(key).setValue(null).addOnSuccessListener(i -> {
                                 Toast.makeText(holder.itemView.getContext(), "Delete grocery successfully", Toast.LENGTH_LONG).show();
                             });
