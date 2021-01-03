@@ -1,4 +1,4 @@
-package com.example.whatchadoin.ui.home;
+package com.example.whatchadoin.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;

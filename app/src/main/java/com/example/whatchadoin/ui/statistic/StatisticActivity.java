@@ -10,8 +10,8 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.whatchadoin.R;
+import com.example.whatchadoin.adapter.TaskStatsAdapter;
 import com.example.whatchadoin.models.Task;
-import com.example.whatchadoin.ui.home.TaskAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

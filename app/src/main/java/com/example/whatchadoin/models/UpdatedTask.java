@@ -1,4 +1,4 @@
-package com.example.whatchadoin.ui.task;
+package com.example.whatchadoin.models;
 
 import java.util.ArrayList;
 

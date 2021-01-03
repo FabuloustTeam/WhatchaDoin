@@ -2,7 +2,6 @@ package com.example.whatchadoin.ui.task;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -14,14 +13,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.whatchadoin.R;
 import com.example.whatchadoin.models.Tag;
 import com.example.whatchadoin.models.Task;
-import com.example.whatchadoin.ui.home.TaskAdapter;
+import com.example.whatchadoin.models.UpdatedTask;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -69,7 +67,6 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             public void onClick(View v) {
                 if (listTags.size() < 3) {
                     loadTags();
-
                 } else {
 
                 }
@@ -189,7 +186,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
 
 
     private void addNewTask() {
-        Task task = new Task();
+        UpdatedTask task = new UpdatedTask();
         task.setName(taskName.getText().toString());
         task.setDate(chooseDate.getText().toString().trim());
         task.setImportant(important.isChecked());

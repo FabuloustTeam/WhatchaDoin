@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.whatchadoin.R;
 import com.example.whatchadoin.models.Tag;
 import com.example.whatchadoin.models.Task;
+import com.example.whatchadoin.models.UpdatedTask;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,7 +31,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class UpdateTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -216,7 +216,6 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
     private AlertDialog AskOption()
     {
         AlertDialog myQuittingDialogBox = new AlertDialog.Builder(this)
-                // set message, title, and icon
                 .setTitle("Delete")
                 .setMessage("Do you want to delete this task?")
 
