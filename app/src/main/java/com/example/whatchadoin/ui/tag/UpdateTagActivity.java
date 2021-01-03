@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.whatchadoin.R;
 import com.example.whatchadoin.adapter.TaskAdapter;
 import com.example.whatchadoin.models.Task;
+import com.example.whatchadoin.ui.task.UpdateTaskActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -67,18 +68,26 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("tag");
+                if(!tagName.getText().toString().isEmpty()) {
+                    if(!tagName.getText().toString().trim().isEmpty()) {
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference myRef = database.getReference("tag");
 
-                String Id = key;
-                String sname = tagName.getText().toString();
-                myRef.child(Id).child("name").setValue(sname).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(context, "Update tag successfully", Toast.LENGTH_LONG).show();
-                        finish();
+                        String Id = key;
+                        String sname = tagName.getText().toString();
+                        myRef.child(Id).child("name").setValue(sname).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(context, "Update tag successfully", Toast.LENGTH_LONG).show();
+                                finish();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(context, "Please input tag name", Toast.LENGTH_LONG).show();
                     }
-                });
+                } else {
+                    Toast.makeText(context, "Please input tag name", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -172,5 +181,8 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
 
     @Override
     public void onTaskClick(int position) {
+        Intent intent = new Intent(UpdateTagActivity.this, UpdateTaskActivity.class);
+        intent.putExtra("KEY", String.valueOf(dataTask.get(position).getId()));
+        startActivity(intent);
     }
 }
