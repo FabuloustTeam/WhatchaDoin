@@ -50,7 +50,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
-
+        getSupportActionBar().hide();
         context = this;
         taskName = (EditText) findViewById(R.id.etTaskName);
         chooseDate = (TextView) findViewById(R.id.tvChooseDate);

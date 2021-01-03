@@ -22,11 +22,8 @@ import com.example.whatchadoin.R;
 import com.example.whatchadoin.models.Item;
 import com.example.whatchadoin.ui.item.ItemUpdateActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -54,7 +51,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.done.setChecked(items.get(position).isDone());
         holder.nameItem.setText(items.get(position).getName());
-        if(items.get(position).isDone()) {
+        if (items.get(position).isDone()) {
             holder.nameItem.setPaintFlags(holder.nameItem.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             holder.nameItem.setTextColor(Color.GRAY);
         }
@@ -97,13 +94,11 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
                                 });
                                 dialog.dismiss();
                             }
-                        })
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
-                        })
-                        .create();
+                        }).create();
 
                 myQuittingDialogBox.show();
             }

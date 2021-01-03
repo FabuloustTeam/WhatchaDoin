@@ -34,6 +34,9 @@ public class StatisticActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistic);
+
+        getSupportActionBar().hide();
+
         context = this;
         recyclerCompleteTask = (RecyclerView) findViewById(R.id.recyclerComletedTasks);
         recyclerIncompleteTask = (RecyclerView) findViewById(R.id.recyclerIncomletedTasks);

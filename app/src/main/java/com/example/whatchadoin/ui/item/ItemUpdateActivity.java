@@ -31,7 +31,7 @@ public class ItemUpdateActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_update);
-
+        getSupportActionBar().hide();
         context = this;
         String key = getIntent().getStringExtra("KEY");
         itemName = (EditText) findViewById(R.id.etItemName);

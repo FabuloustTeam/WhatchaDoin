@@ -56,6 +56,7 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_task);
         context = this;
+        getSupportActionBar().hide();
         taskNameUpdate = (EditText) findViewById(R.id.etTaskNameUpdate);
         chooseTagUpdate = (Button) findViewById(R.id.btnChooseTagUpdate);
         selectedTagsUpdate = (TextView) findViewById(R.id.tvSelectedTagsUpdate);

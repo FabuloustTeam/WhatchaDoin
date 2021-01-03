@@ -179,9 +179,7 @@ public class ItemActivity extends AppCompatActivity implements ItemAdapter.OnIte
 
     @Override
     public void onItemClick(int position) {
-        Intent intent = new Intent(this, ItemUpdateActivity.class);
-        intent.putExtra("KEY", String.valueOf(listItems.get(position).getId()));
-        startActivity(intent);
+
     }
 
 }
