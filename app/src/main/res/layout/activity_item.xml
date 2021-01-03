@@ -92,8 +92,7 @@
             android:inputType="textPersonName"
             android:background="@drawable/background_add_text_view"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:fontFamily="@font/dubai_regular"/>
+            android:paddingRight="20dp"/>
 
         <ImageButton
             android:id="@+id/btnAddItem"

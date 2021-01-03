@@ -54,12 +54,17 @@
 
     <Button
         android:id="@+id/btnSaveGrocery"
-        android:layout_width="195dp"
-        android:layout_height="69dp"
         android:text="Edit grocery"
-        android:textSize="18sp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:textAllCaps="false"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:textSize="16sp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_gravity="center"
+        android:background="@drawable/button_gradient_background"
         android:layout_below="@+id/etEditGrocery"/>
 
 </RelativeLayout>
