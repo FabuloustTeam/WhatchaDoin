@@ -319,13 +319,12 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
                     taskParsed.setTag(taskTag);
 
                     taskNameUpdate.setText(taskParsed.getName());
+                    chooseDateUpdate.setText("  " + taskParsed.getDate());
+                    importantUpdate.setChecked(taskParsed.isImportant());
                     if(taskParsed.getTag().size() != 0) {
                         String tagValue = getTagsOfTask(taskParsed.getTag());
                         selectedTagsUpdate.setText(tagValue);
                     }
-                    chooseDateUpdate.setText("  " + taskParsed.getDate());
-                    importantUpdate.setChecked(taskParsed.isImportant());
-
                 } catch (Exception ex) {
                     Log.e("Json error", ex.toString());
                 }
@@ -341,7 +340,13 @@ public class UpdateTaskActivity extends AppCompatActivity implements DatePickerD
     private String getTagsOfTask(ArrayList<Integer> tagsOfTask) {
         String tags = "";
         for (int i = 0; i < tagsOfTask.size(); i++) {
-            String temp = getNameInAllTags(tagsOfTask.get(i));
+            String temp = "";
+            for (int j = 0; j < listTags.size(); j++) {
+                if (listTags.get(j).getId() == tagsOfTask.get(i)) {
+                    temp = listTags.get(j).getName();
+                    break;
+                }
+            }
             tags = tags + "#" + temp;
             if (i != tagsOfTask.size() - 1) {
                 tags = tags + "  ";
