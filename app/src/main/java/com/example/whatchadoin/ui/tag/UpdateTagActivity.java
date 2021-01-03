@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.OnTaskListener {
-    EditText tagname;
+    EditText tagName;
     Button update, delete;
     String key;
     ArrayList<Task> dataTask = new ArrayList<>();
@@ -43,8 +43,10 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_tag);
+        getSupportActionBar().hide();
+
         context = this;
-        tagname = (EditText) findViewById(R.id.etTagNameUpdate);
+        tagName = (EditText) findViewById(R.id.etTagNameUpdate);
         update = (Button) findViewById(R.id.btnUpdateTag);
         delete = (Button) findViewById(R.id.btnDeleteTag);
         recyViewTask = (RecyclerView) findViewById(R.id.recycleViewTasksByTag);
@@ -70,7 +72,7 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
                 DatabaseReference myRef = database.getReference("tag");
 
                 String Id = key;
-                String sname = tagname.getText().toString();
+                String sname = tagName.getText().toString();
                 myRef.child(Id).child("name").setValue(sname).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -155,7 +157,7 @@ public class UpdateTagActivity extends AppCompatActivity implements TaskAdapter.
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 try {
                     HashMap<String, Object> hashMap = (HashMap<String, Object>) dataSnapshot.getValue();
-                    tagname.setText(hashMap.get("name").toString());
+                    tagName.setText(hashMap.get("name").toString());
                 } catch (Exception e) {
                     Log.e("Json error", e.toString());
                 }
